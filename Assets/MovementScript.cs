@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading;
 using UnityEngine;
+using Unity.Netcode;
 
-public class MovementScript : MonoBehaviour
+public class MovementScript : NetworkBehaviour
 {
     [Header("Movement")]
     public float movementSpeed;
@@ -34,6 +35,7 @@ public class MovementScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!IsOwner) return;
         PlayerInput();
     }
 
@@ -46,6 +48,7 @@ public class MovementScript : MonoBehaviour
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
+        Debug.Log(horizontalInput + " " + verticalInput);
     }
 
     float CheckSprint()
