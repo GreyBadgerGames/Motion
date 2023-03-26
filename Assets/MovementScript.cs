@@ -48,7 +48,6 @@ public class MovementScript : NetworkBehaviour
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
-        Debug.Log(horizontalInput + " " + verticalInput);
     }
 
     float CheckSprint()

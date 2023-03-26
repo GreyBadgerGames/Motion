@@ -10,6 +10,7 @@ public class ViewController : NetworkBehaviour
     public float sensY;
 
     public Transform orientation;
+    [SerializeField] private GameObject PlayerObject;
 
     float xRotation;
     float yRotation; 

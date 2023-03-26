@@ -226,6 +226,7 @@ MonoBehaviour:
   sensX: 11
   sensY: 11
   orientation: {fileID: 1331626010057255832}
+  PlayerObject: {fileID: 0}
 --- !u!1 &1331626011103877386
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,6 +384,7 @@ GameObject:
   - component: {fileID: 1331626011835382731}
   - component: {fileID: 5837324982513969883}
   - component: {fileID: 7904919736762686132}
+  - component: {fileID: 3735900604473332184}
   m_Layer: 0
   m_Name: PlayerObject
   m_TagString: Player
@@ -477,3 +479,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3735900604473332184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1331626011835382728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e073f04d9d699984688f9e75332d5a30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orientation: {fileID: 1331626010057255832}
+  ProjectileObject: {fileID: 5315465300101960497, guid: 2193a79423c43c74fbf8c44d76a19298, type: 3}
+  PlayerCamera: {fileID: 1331626010981178509}
