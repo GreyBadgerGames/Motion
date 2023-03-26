@@ -16,8 +16,8 @@ public class FireBehaviour : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        rb = GetComponent<Rigidbody>();
-        rb.isKinematic = false;
-        rb.AddForce(PlayerCamera.transform.forward * 100, ForceMode.Force);
+       // rb = GetComponent<Rigidbody>();
+      //  rb.isKinematic = false;
+      //  rb.AddForce(PlayerCamera.transform.forward * 100, ForceMode.Force);
     }
 }

@@ -12,6 +12,7 @@ public class FireScript : NetworkBehaviour
 
     [SerializeField] private GameObject ProjectileObject;
     [SerializeField] private GameObject PlayerCamera;
+    private Rigidbody rb;
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +52,9 @@ public class FireScript : NetworkBehaviour
          Debug.Log("Spawn shot server mode!");
          GameObject projectile = Instantiate(ProjectileObject, spawnPos, spawnRotation);
          projectile.GetComponent<NetworkObject>().Spawn();
+         rb = projectile.transform.GetChild(0).gameObject.GetComponent<Rigidbody>();
+         rb.isKinematic = false;
+         rb.AddForce(PlayerCamera.transform.forward * 100, ForceMode.Force);
     }
 
 }
