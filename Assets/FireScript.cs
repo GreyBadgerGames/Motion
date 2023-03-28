@@ -26,7 +26,7 @@ public class FireScript : NetworkBehaviour
         if (!IsOwner) return;
         requestFire = playerInput();
         if (requestFire == true) { 
-            fireServerRpc(PlayerCamera.transform.position + new Vector3(0,0,0), PlayerCamera.transform.rotation);
+            fireServerRpc(PlayerCamera.transform.position + PlayerCamera.transform.forward * 0.75f, PlayerCamera.transform.rotation);
             requestFire = false;
         }
     }
@@ -54,7 +54,7 @@ public class FireScript : NetworkBehaviour
          projectile.GetComponent<NetworkObject>().Spawn();
          rb = projectile.transform.GetChild(0).gameObject.GetComponent<Rigidbody>();
          rb.isKinematic = false;
-         rb.AddForce(PlayerCamera.transform.forward * 100, ForceMode.Force);
+         rb.AddForce(PlayerCamera.transform.forward * 10, ForceMode.Impulse);
     }
 
 }
