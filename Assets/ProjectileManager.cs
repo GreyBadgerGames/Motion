@@ -9,7 +9,6 @@ using Unity.Netcode;
 // ProjectileManager manages a generic projectile, with projectiles stats being set by the firer
 public class ProjectileManager : NetworkBehaviour
 {
-    [SerializeField] private Rigidbody _projectileRB;
     private float _speed;
     private float _damage;
     private NetworkObject _networkObject;
@@ -21,7 +20,7 @@ public class ProjectileManager : NetworkBehaviour
         _damage = damage;
         _networkObject = gameObject.GetComponent<NetworkObject>();
         
-        _projectileRB.isKinematic = false;
+        gameObject.GetComponent<Rigidbody>().isKinematic = false;
 
         _networkObject.Spawn();
     }
@@ -29,12 +28,24 @@ public class ProjectileManager : NetworkBehaviour
     // Fire adds an impulse force to the projectile's RigidBidy as an impluse
     public void Fire(Vector3 direction)
     {
-        _projectileRB.AddForce(direction * _speed, ForceMode.Impulse);
+        gameObject.GetComponent<Rigidbody>().AddForce(direction * _speed, ForceMode.Impulse);
     }
 
-    private void OnCollisionEnter(Collision collision) 
+    void OnCollisionEnter(Collision collision) 
     {
         if (!IsOwner) return;
-        // gameObject destroy
+        Debug.Log("Projectile collided with " + collision.gameObject.name);
+        if (collision.gameObject.tag == "Player")
+        {
+            Debug.Log(collision.gameObject.GetComponent<NetworkBehaviour>());
+        }
+        
+        DespawnServerRpc();        
+    }
+
+    [ServerRpc]
+    private void DespawnServerRpc()
+    {
+        _networkObject.Despawn();
     }
 }
