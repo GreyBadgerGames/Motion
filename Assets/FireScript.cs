@@ -12,6 +12,8 @@ public class FireScript : NetworkBehaviour
 
     [SerializeField] private GameObject ProjectileObject;
     [SerializeField] private GameObject PlayerCamera;
+    [SerializeField] private float _projectileSpeed;
+    [SerializeField] private float _projectileDamage;
     private Rigidbody rb;
 
     // Start is called before the first frame update
@@ -49,12 +51,15 @@ public class FireScript : NetworkBehaviour
     [ServerRpc]
     void fireServerRpc(Vector3 spawnPos, Quaternion spawnRotation)
     {
-         Debug.Log("Spawn shot server mode!");
-         GameObject projectile = Instantiate(ProjectileObject, spawnPos, spawnRotation);
-         projectile.GetComponent<NetworkObject>().Spawn();
-         rb = projectile.transform.GetChild(0).gameObject.GetComponent<Rigidbody>();
-         rb.isKinematic = false;
-         rb.AddForce(PlayerCamera.transform.forward * 10, ForceMode.Impulse);
+        Debug.Log("Spawn shot server mode!");
+        GameObject projectileInstance = Instantiate(ProjectileObject, spawnPos, spawnRotation);
+        ProjectileManager projectile = projectileInstance.GetComponent<ProjectileManager>();
+        projectile.CreateAndSpawn(_projectileSpeed, _projectileDamage);
+              
+        
+        projectile.GetComponent<NetworkObject>().Spawn();
+
+        rb.AddForce(PlayerCamera.transform.forward * 10, ForceMode.Impulse);
     }
 
 }
