@@ -22,7 +22,11 @@ public class FireScript : NetworkBehaviour
         if (!IsOwner) return;
         requestFire = playerInput();
         if (requestFire == true) { 
-            fireServerRpc(PlayerCamera.transform.position + PlayerCamera.transform.forward * 0.75f, PlayerCamera.transform.rotation);
+            FireServerRpc(
+                PlayerCamera.transform.position + PlayerCamera.transform.forward * 0.75f,
+                PlayerCamera.transform.rotation,
+                PlayerCamera.transform.forward
+            );
             requestFire = false;
         }
     }
@@ -32,13 +36,13 @@ public class FireScript : NetworkBehaviour
     }
     
     [ServerRpc]
-    void fireServerRpc(Vector3 spawnPos, Quaternion spawnRotation)
+    void FireServerRpc(Vector3 spawnPos, Quaternion spawnRotation, Vector3 fireDirection)
     {
         Debug.Log("Spawn shot server mode!");
         GameObject projectileInstance = Instantiate(ProjectileObject, spawnPos, spawnRotation);
         ProjectileManager projectile = projectileInstance.GetComponent<ProjectileManager>();
         projectile.SetupAndSpawn(_projectileSpeed, _projectileDamage);
-        projectile.Fire(PlayerCamera.transform.forward);
+        projectile.Fire(fireDirection);
     }
 
 }

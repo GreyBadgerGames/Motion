@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5315465300101960503}
   - component: {fileID: 5315465300101960496}
-  - component: {fileID: 2074301081000078410}
+  - component: {fileID: 7511795570900945607}
   m_Layer: 0
   m_Name: Projectile
   m_TagString: Untagged
@@ -50,7 +50,7 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &2074301081000078410
+--- !u!114 &7511795570900945607
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -62,6 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e161278fae1fdb249971e05d4014712b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _projectileRB: {fileID: 5315465300557168111}
 --- !u!1 &5315465300557168106
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,7 +75,7 @@ GameObject:
   - component: {fileID: 5315465300557168110}
   - component: {fileID: 5315465300557168111}
   - component: {fileID: 5315465300557168104}
-  - component: {fileID: 2694903535727949178}
+  - component: {fileID: 6655118073115254738}
   m_Layer: 0
   m_Name: ProjectileObject
   m_TagString: Untagged
@@ -152,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2694903535727949178
+--- !u!114 &6655118073115254738
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -161,10 +162,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 5315465300557168106}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f850d8fa84a7324459d6f64108a09da5, type: 3}
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerCamera: {fileID: 5315465300557168106}
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  InLocalSpace: 0
+  Interpolate: 1
 --- !u!1 &5315465300961704250
 GameObject:
   m_ObjectHideFlags: 0
