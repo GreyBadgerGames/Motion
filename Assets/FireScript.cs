@@ -16,12 +16,6 @@ public class FireScript : NetworkBehaviour
     [SerializeField] private float _projectileDamage;
     private Rigidbody rb;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -33,21 +27,10 @@ public class FireScript : NetworkBehaviour
         }
     }
 
-    void FixedUpdate()
-    {
-        
-    }
-
-
     bool playerInput() {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("pew");
-            return true;
-            
-        }
-        return false;
+        return Input.GetMouseButtonDown(0);
     }
+    
     [ServerRpc]
     void fireServerRpc(Vector3 spawnPos, Quaternion spawnRotation)
     {

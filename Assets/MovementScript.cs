@@ -131,7 +131,6 @@ public class MovementScript : NetworkBehaviour
 
     private void JumpMovement()
     {
-        Debug.Log(jumpKeyPressed && grounded && readyToJump);
         if (readyToJump && grounded && jumpKeyPressed)
         {
             readyToJump = false;
