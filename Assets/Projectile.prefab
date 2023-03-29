@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5315465300101960503}
   - component: {fileID: 5315465300101960496}
-  - component: {fileID: 7451922656855229976}
+  - component: {fileID: 2074301081000078410}
   m_Layer: 0
   m_Name: Projectile
   m_TagString: Untagged
@@ -50,7 +50,7 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &7451922656855229976
+--- !u!114 &2074301081000078410
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -59,7 +59,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5315465300101960497}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2395b705ab556646a822bb7343a6da3, type: 3}
+  m_Script: {fileID: 11500000, guid: e161278fae1fdb249971e05d4014712b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5315465300557168106

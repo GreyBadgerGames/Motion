@@ -54,12 +54,8 @@ public class FireScript : NetworkBehaviour
         Debug.Log("Spawn shot server mode!");
         GameObject projectileInstance = Instantiate(ProjectileObject, spawnPos, spawnRotation);
         ProjectileManager projectile = projectileInstance.GetComponent<ProjectileManager>();
-        projectile.CreateAndSpawn(_projectileSpeed, _projectileDamage);
-              
-        
-        projectile.GetComponent<NetworkObject>().Spawn();
-
-        rb.AddForce(PlayerCamera.transform.forward * 10, ForceMode.Impulse);
+        projectile.SetupAndSpawn(_projectileSpeed, _projectileDamage);
+        projectile.Fire(PlayerCamera.transform.forward);
     }
 
 }

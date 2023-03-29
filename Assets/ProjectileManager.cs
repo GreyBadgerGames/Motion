@@ -11,16 +11,28 @@ public class ProjectileManager : NetworkBehaviour
 {
     private float _speed;
     private float _damage;
-    private NetworkObject _no;
+    private NetworkObject _networkObject;
 
-    public void CreateAndSpawn(float speed, float damage)
+    // SetupAndSpawn sets up the projectile, and creates it on the network
+    public void SetupAndSpawn(float speed, float damage)
     {
         if (!IsServer) return;
 
         _speed = speed;
         _damage = damage;
-        _no = 
+        _networkObject = gameObject.GetComponent<NetworkObject>();
+        
         gameObject.GetComponent<Rigidbody>().isKinematic = false;
+
+        _networkObject.Spawn();
+    }
+
+    // Fire adds an impulse force to the projectile's RigidBidy as an impluse
+    public void Fire(Vector3 direction)
+    {
+        if (!IsServer) return;
+
+        gameObject.GetComponent<Rigidbody>().AddForce(direction * _speed, ForceMode.Impulse);
     }
 
     private void OnCollisionEnter(Collision collision) 
@@ -28,8 +40,4 @@ public class ProjectileManager : NetworkBehaviour
         if (!IsOwner) return;
         // gameObject destroy
     }
-
-
-    [ServerRpc]
-    public void 
 }
