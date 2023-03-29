@@ -38,6 +38,7 @@ public class ProjectileManager : NetworkBehaviour
         if (collision.gameObject.tag == "Player")
         {
             Debug.Log(collision.gameObject.GetComponent<NetworkBehaviour>());
+            // #5 Call a ServerRPC on Player to damage them
         }
         
         DespawnServerRpc();        
