@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
-public class NetworkManagerUI : MonoBehaviour
+public class NetworkManagerUI : NetworkBehaviour
 {
     [SerializeField] private Button serverBtn;
     [SerializeField] private Button hostBtn;
     [SerializeField] private Button clientBtn;
+    [SerializeField] public TMP_InputField nameField;
 
     private void Awake()
     {
@@ -25,6 +27,5 @@ public class NetworkManagerUI : MonoBehaviour
             NetworkManager.Singleton.StartClient();
         });
     }
-
 }
     

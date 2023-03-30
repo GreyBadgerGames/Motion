@@ -4,8 +4,6 @@ using UnityEngine;
 using Unity.Netcode;
 
 public class FireScript : NetworkBehaviour
-
-    
 {
     bool requestFire;
     public Transform orientation;
