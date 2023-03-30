@@ -12,6 +12,7 @@ public class ProjectileManager : NetworkBehaviour
     private float _speed;
     private float _damage;
     private NetworkObject _networkObject;
+    private bool _hasCollieded = false;
 
     // SetupAndSpawn sets up the projectile, and creates it on the network
     public void SetupAndSpawn(float speed, float damage)
@@ -33,20 +34,16 @@ public class ProjectileManager : NetworkBehaviour
 
     void OnCollisionEnter(Collision collision) 
     {
-        if (!IsOwner) return;
+        if (!IsServer || _hasCollieded) return;
+        _hasCollieded = true;
+
         Debug.Log("Projectile collided with " + collision.gameObject.name);
         if (collision.gameObject.tag == "Player")
         {
-            Debug.Log(collision.gameObject.GetComponent<NetworkBehaviour>());
-            // #5 Call a ServerRPC on Player to damage them
+            PlayerManager player = collision.transform.parent.GetComponent<PlayerManager>(); // TODO Improve player structure/reference to remove this hack bit?
+            player.ModifyHealthServerRpc(- _damage);
         }
         
-        DespawnServerRpc();        
-    }
-
-    [ServerRpc]
-    private void DespawnServerRpc()
-    {
-        _networkObject.Despawn();
+        _networkObject.Despawn();    
     }
 }
