@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8901418024890520315}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -502,3 +502,5 @@ MonoBehaviour:
   orientation: {fileID: 1331626010057255832}
   ProjectileObject: {fileID: 5315465300101960497, guid: 2193a79423c43c74fbf8c44d76a19298, type: 3}
   PlayerCamera: {fileID: 1331626010981178509}
+  _projectileSpeed: 10
+  _projectileDamage: 10
