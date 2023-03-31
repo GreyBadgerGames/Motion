@@ -12,7 +12,7 @@ public class ProjectileManager : NetworkBehaviour
     private float _speed;
     private float _damage;
     private NetworkObject _networkObject;
-    private bool _hasCollieded = false;
+    private bool _hasCollided = false;
 
     // SetupAndSpawn sets up the projectile, and creates it on the network
     public void SetupAndSpawn(float speed, float damage)
@@ -34,8 +34,8 @@ public class ProjectileManager : NetworkBehaviour
 
     void OnCollisionEnter(Collision collision) 
     {
-        if (!IsServer || _hasCollieded) return;
-        _hasCollieded = true;
+        if (!IsServer || _hasCollided) return;
+        _hasCollided = true;
 
         Debug.Log("Projectile collided with " + collision.gameObject.name);
         if (collision.gameObject.tag == "Player")
