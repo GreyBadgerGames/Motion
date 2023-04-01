@@ -34,10 +34,7 @@ public class ProjectileManager : NetworkBehaviour
 
     void OnCollisionEnter(Collision collision) 
     {
-        if (!IsServer || _hasCollided)
-        {
-            return;
-        }
+        if (!IsServer || _hasCollided) return;
         _hasCollided = true;
         
 
