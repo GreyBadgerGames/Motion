@@ -34,8 +34,13 @@ public class ProjectileManager : NetworkBehaviour
 
     void OnCollisionEnter(Collision collision) 
     {
-        if (!IsServer || _hasCollided) return;
+        if (!IsServer || _hasCollided)
+        {
+            Debug.Log("hasCollided");
+            return;
+        }
         _hasCollided = true;
+        
 
         Debug.Log("Projectile collided with " + collision.gameObject.name);
         if (collision.gameObject.tag == "Player")
