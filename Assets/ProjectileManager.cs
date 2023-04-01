@@ -36,7 +36,6 @@ public class ProjectileManager : NetworkBehaviour
     {
         if (!IsServer || _hasCollided)
         {
-            Debug.Log("hasCollided");
             return;
         }
         _hasCollided = true;
