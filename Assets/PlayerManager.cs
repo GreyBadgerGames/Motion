@@ -6,8 +6,10 @@ using Unity.Netcode;
 public class PlayerManager : NetworkBehaviour
 {
     [SerializeField] private float _maxHealth = 100;
-    public NetworkVariable<float> _health = new NetworkVariable<float>();
+    public NetworkVariable<float> _health = new NetworkVariable<float>(default,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private string _name = "";
+    
 
     void Start() 
     {
@@ -37,9 +39,12 @@ public class PlayerManager : NetworkBehaviour
 
     void Update()
     {
-        // TODO Hack to test damage, remove with #5
-        if (Input.GetKey(KeyCode.UpArrow)) ModifyHealthServerRpc(1);
-        if (Input.GetKey(KeyCode.DownArrow)) ModifyHealthServerRpc(-1);
+        if (!IsServer) return;
+        
+        if (_health.Value <= 0)
+        {
+            _health.Value = _maxHealth;
+        }
     }
 
     private void setPlayerHealth()
@@ -48,9 +53,13 @@ public class PlayerManager : NetworkBehaviour
         _health.Value = _maxHealth;
     }
 
-    [ServerRpc]
+    [ServerRpc (RequireOwnership = false)]
     public void ModifyHealthServerRpc(float mod)
     {
         _health.Value += mod;
+        if (_health.Value > _maxHealth)
+        {
+            _health.Value = _maxHealth;
+        }
     }
 }
