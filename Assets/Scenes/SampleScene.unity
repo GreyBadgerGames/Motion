@@ -1848,7 +1848,7 @@ GameObject:
   - component: {fileID: 1661322686}
   - component: {fileID: 1661322685}
   m_Layer: 5
-  m_Name: NetworkUI
+  m_Name: GameUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

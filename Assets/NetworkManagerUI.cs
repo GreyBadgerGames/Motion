@@ -17,15 +17,38 @@ public class NetworkManagerUI : NetworkBehaviour
         serverBtn.onClick.AddListener(() =>
         {
             NetworkManager.Singleton.StartServer();
+                HideNetworkUI();
         });
         hostBtn.onClick.AddListener(() =>
         {
             NetworkManager.Singleton.StartHost();
+            if (GameObject.Find("Player(Clone)") != null)
+            {
+                HideNetworkUI();
+            }
         });
         clientBtn.onClick.AddListener(() =>
         {
             NetworkManager.Singleton.StartClient();
+            if (GameObject.Find("Player(Clone)") != null)
+            {
+                HideNetworkUI();
+            }
         });
+    }
+
+    private void HideNetworkUI()
+    {
+        serverBtn.gameObject.SetActive(false);
+        hostBtn.gameObject.SetActive(false);
+        clientBtn.gameObject.SetActive(false);
+    }
+
+    private void ShowNetworkUI()
+    {
+        serverBtn.gameObject.SetActive(true);
+        hostBtn.gameObject.SetActive(true);
+        clientBtn.gameObject.SetActive(true);
     }
 }
     
