@@ -16,7 +16,7 @@ public class ScoreBoardManager : NetworkBehaviour
         foreach (KeyValuePair<string, PlayerManager> player in players) 
         {
             // TODO Sort by score
-            text += player.Key + ": " + player.Value._health.Value + "\n";
+            text += player.Key + ": " + player.Value.GamePlayerManager._health.Value + "\n";
         }
         UpdateScoreBoardTextClientRpc(text);
     }

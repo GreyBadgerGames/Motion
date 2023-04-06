@@ -2,21 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.SceneManagement;
 
 public class PlayerManager : NetworkBehaviour
 {
-    [SerializeField] private float _maxHealth = 100;
-    public NetworkVariable<float> _health = new NetworkVariable<float>(default,
-        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    [SerializeField] public GamePlayerManager GamePlayerManager;
+    [SerializeField] private GameObject _camera;
     private string _name = "";
-    
+
+    public override void OnNetworkSpawn()
+    {
+        GamePlayerManager.gameObject.SetActive(false);
+        _camera.gameObject.SetActive(false);
+    }
+
+    // private void SceneManager_OnSceneEvent(SceneEvent sceneEvent)
+    // {    
+    //     Debug.Log("YOOO CHANGED SCENE!");  
+    //     switch (sceneEvent.SceneEventType) 
+    //     {
+    //         case SceneEventType.LoadComplete:
+    //             {
+    //                 if (sceneEvent.SceneName == "Game") {
+    //                     SetActiveGamePlayerObject(true);
+    //                     break;
+    //                 }
+    //                 SetActiveGamePlayerObject(false);
+    //                 break;
+    //             }
+    //     }
+    // }
 
     void Start() 
     {
-        setPlayerHealth();
-        
-        if (!IsOwner) return;     
-        
+        if (!IsOwner) return;
+
+        // Get the scene
+        // Update current context
+    }
+
+    private void CreateScoreboard()
+    {
         // TODO Improve this, hack just to get the name in
         NetworkManagerUI networkManagerUI = GameObject.Find("NetworkManagerUI").GetComponent<NetworkManagerUI>();
         Debug.Log("NAME FIELD "+ networkManagerUI.nameField.text);
@@ -37,29 +63,10 @@ public class PlayerManager : NetworkBehaviour
         }
     }
 
-    void Update()
+    [ClientRpc]
+    public void SetActiveGamePlayerObjectClientRpc(bool active)
     {
-        if (!IsServer) return;
-        
-        if (_health.Value <= 0)
-        {
-            _health.Value = _maxHealth;
-        }
-    }
-
-    private void setPlayerHealth()
-    {
-        if (!IsServer) return;
-        _health.Value = _maxHealth;
-    }
-
-    [ServerRpc (RequireOwnership = false)]
-    public void ModifyHealthServerRpc(float mod)
-    {
-        _health.Value += mod;
-        if (_health.Value > _maxHealth)
-        {
-            _health.Value = _maxHealth;
-        }
+        GamePlayerManager.gameObject.SetActive(active);
+        _camera.gameObject.SetActive(active);
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class LobbyManager : NetworkBehaviour
 {
@@ -20,25 +21,34 @@ public class LobbyManager : NetworkBehaviour
 
     private void readyButtonClicked()
     {
-        // TODO Get current players name, somehow
-        // UpdateLobbyListServerRpc(NetworkManager.Singleton.)
+        // TODO HACK TEST REMOVE
+        if (IsServer && !string.IsNullOrEmpty("Lobby"))
+        {
+            var status = NetworkManager.SceneManager.LoadScene("Game", LoadSceneMode.Single);
+            
+            if (status != SceneEventProgressStatus.Started)
+            {
+                Debug.LogWarning($"Failed to load Game " +
+                    $"with a {nameof(SceneEventProgressStatus)}: {status}");
+            }
+        }
     }
 
-    void Update()
-    {
-        if (!IsServer) return;
-        string text = "";
-        foreach (KeyValuePair<string, bool> player in playersReady) 
-        {
-            if (player.Value)
-            {
-                text += player.Key + "- READY\n";
-                continue;
-            }
-            text += player.Key + "- WAITING\n";
-        }
-        UpdateLobbyListTextClientRpc(text);
-    }
+    // void Update()
+    // {
+    //     if (!IsServer) return;
+    //     string text = "";
+    //     foreach (KeyValuePair<string, bool> player in playersReady) 
+    //     {
+    //         if (player.Value)
+    //         {
+    //             text += player.Key + "- READY\n";
+    //             continue;
+    //         }
+    //         text += player.Key + "- WAITING\n";
+    //     }
+    //     // UpdateLobbyListTextClientRpc(text); TODO ADD BACK ON
+    // }
 
     // UpdateConnectedClients updates the LobbyList's local cache of connected playerNames
     [ServerRpc(RequireOwnership = false)]

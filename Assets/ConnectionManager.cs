@@ -10,7 +10,7 @@ public class ConnectionManager : NetworkBehaviour
     {
         if (IsServer && !string.IsNullOrEmpty("MainMenu"))
         {
-            var status = NetworkManager.SceneManager.LoadScene("Game", LoadSceneMode.Single);
+            var status = NetworkManager.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
             
             if (status != SceneEventProgressStatus.Started)
             {
