@@ -28,18 +28,6 @@ public class LobbyManager : NetworkBehaviour
         ready = !ready;
         UpdateLobbyListServerRpc(NetworkManager.LocalClientId, ready);
         checkAllPlayersReady();
-
-        // TODO HACK TEST REMOVE
-        // if (IsServer && !string.IsNullOrEmpty("Lobby"))
-        // {
-        //     // var status = NetworkManager.SceneManager.LoadScene("Game", LoadSceneMode.Single);
-        //     //
-        //     // if (status != SceneEventProgressStatus.Started)
-        //     // {
-        //     //     Debug.LogWarning($"Failed to load Game " +
-        //     //         $"with a {nameof(SceneEventProgressStatus)}: {status}");
-        //     // }
-        // }
     }
 
     void FixedUpdate()

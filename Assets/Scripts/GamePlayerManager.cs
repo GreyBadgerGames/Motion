@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
+// GamePlayerManager runs the player specific logic when in game
 public class GamePlayerManager : NetworkBehaviour
 {
     [SerializeField] private float _maxHealth = 100;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
+// GameManager manages the overall state of the game
 public class GameManager : NetworkBehaviour
 {
     [SerializeField] private NetworkObject _playerPrefab;
