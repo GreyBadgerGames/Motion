@@ -7,16 +7,16 @@ using TMPro;
 public class ScoreBoardManager : NetworkBehaviour
 {
     [SerializeField] private TMP_Text _scoreBoardText;
-    private Dictionary<string, PlayerManager> players = new Dictionary<string, PlayerManager>(); // playerName to PlayerManager
+    private Dictionary<string, GamePlayerManager> players = new Dictionary<string, GamePlayerManager>(); // playerName to PlayerManager
 
     void Update()
     {
         if (!IsServer) return;
         string text = "";
-        foreach (KeyValuePair<string, PlayerManager> player in players) 
+        foreach (KeyValuePair<string, GamePlayerManager> player in players) 
         {
             // TODO Sort by score
-            text += player.Key + ": " + player.Value.GamePlayerManager._health.Value + "\n";
+            text += player.Key + ": " + player.Value.GetComponent<GamePlayerManager>()._health.Value + "\n";
         }
         UpdateScoreBoardTextClientRpc(text);
     }
@@ -25,7 +25,7 @@ public class ScoreBoardManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void UpdateConnectedClientsServerRpc(ulong clientId, string playerName)
     {
-        PlayerManager newPlayer = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<PlayerManager>();
+        GamePlayerManager newPlayer = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<GamePlayerManager>();
         Debug.Log(playerName);
         players[playerName] = newPlayer;
     }

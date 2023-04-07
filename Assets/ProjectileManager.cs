@@ -41,7 +41,7 @@ public class ProjectileManager : NetworkBehaviour
         Debug.Log("Projectile collided with " + collision.gameObject.name);
         if (collision.gameObject.tag == "Player")
         {
-            GamePlayerManager player = collision.transform.parent.GetComponent<PlayerManager>().GamePlayerManager; // TODO Improve player structure/reference to remove this hack bit?
+            GamePlayerManager player = collision.transform.parent.GetComponent<GamePlayerManager>(); // TODO Improve player structure/reference to remove this hack bit?
             player.ModifyHealthServerRpc(- _damage);
         }
         

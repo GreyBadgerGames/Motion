@@ -426,7 +426,7 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 122268433}
-    PlayerPrefab: {fileID: 1331626009956221072, guid: abd7b75d73269014590d941d86ce89e3, type: 3}
+    PlayerPrefab: {fileID: 3545283301426426122, guid: 83dff3b8249d3344f8e12f1c7d9582af, type: 3}
     NetworkPrefabs:
     - Override: 0
       Prefab: {fileID: 1331626009956221072, guid: abd7b75d73269014590d941d86ce89e3, type: 3}
@@ -1612,6 +1612,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 041c3448f70823248a558c60409257cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _exitToDesktopBtn: {fileID: 0}
   _hostBtn: {fileID: 1502123697}
   _clientBtn: {fileID: 409239576}
   _nameField: {fileID: 1335736532}

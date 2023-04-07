@@ -5,12 +5,32 @@ using Unity.Netcode;
 
 public class GameManager : NetworkBehaviour
 {
+    [SerializeField] private NetworkObject _playerPrefab;
+
     public override void OnNetworkSpawn()
     {
         if (!IsServer) return;
-        
-        foreach (KeyValuePair<ulong, NetworkClient> player in NetworkManager.Singleton.ConnectedClients) {
-            player.Value.PlayerObject.GetComponent<PlayerManager>().SetActiveGamePlayerObjectClientRpc(true);
+
+        StartGame(); // TODO Run once all players have loaded the scene (and maybe other conditions?)
+    }
+
+    private void StartGame()
+    {
+        // Create a PlayerObject (_playerPrefab) for each connected client
+        foreach (var clients in NetworkManager.Singleton.ConnectedClients)
+        {
+            SpawnPlayerObject(clients.Key);
         }
     }
+
+    // TODO EndGame()
+
+    private void SpawnPlayerObject(ulong clientId)
+    {
+        var playerNetworkObject = NetworkManager.Singleton.SpawnManager.GetPlayerNetworkObject(clientId);
+        var newPlayer = Instantiate(_playerPrefab, Vector3.zero, Quaternion.identity);
+        newPlayer.SpawnWithOwnership(clientId, true);
+    }
+
+    // TODO DespawnPlayerObject...
 }
