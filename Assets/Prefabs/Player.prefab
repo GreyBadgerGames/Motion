@@ -444,7 +444,7 @@ MonoBehaviour:
   jumpForce: 6
   jumpCooldown: 0.25
   airMultiplier: 0.4
-  jumpKey: 101
+  jumpKey: 32
   playerHeight: 2
   whatIsGround:
     serializedVersion: 2
