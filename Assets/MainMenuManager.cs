@@ -17,6 +17,7 @@ public class MainMenuManager : MonoBehaviour
     {
         _hostBtn.onClick.AddListener(hostButtonClicked);
         _clientBtn.onClick.AddListener(clientButtonClicked);
+        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
     }
 
     // hostButton should only be called for testing
@@ -28,5 +29,11 @@ public class MainMenuManager : MonoBehaviour
     private void clientButtonClicked()
     {
         NetworkManager.Singleton.StartClient();
+    }
+
+    void OnClientConnectedCallback(ulong clientId)
+    {
+        Debug.Log($"Client connected, clientId: {clientId}");
+        NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PersistentPlayerManager>().SetNameServerRpc(_nameField.text);
     }
 }

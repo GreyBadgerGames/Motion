@@ -5,6 +5,7 @@ using Unity.Netcode;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Unity.Collections;
 
 public class LobbyManager : NetworkBehaviour
 {
@@ -12,18 +13,66 @@ public class LobbyManager : NetworkBehaviour
     [SerializeField] private Button _exitLobbyBtn;
     [SerializeField] private Button _readyButton;
     [SerializeField] private TMP_Text _lobbyList;
-    private Dictionary<string, bool> playersReady = new Dictionary<string, bool>(); // playerName to isReady
+    private bool ready;
 
-    private void Awake()
+    public override void OnNetworkSpawn()
     {
+        UpdateLobbyListServerRpc(NetworkManager.LocalClientId, ready);
+
         _readyButton.onClick.AddListener(readyButtonClicked);
+        base.OnNetworkSpawn();
     }
 
     private void readyButtonClicked()
     {
+        ready = !ready;
+        UpdateLobbyListServerRpc(NetworkManager.LocalClientId, ready);
+        checkAllPlayersReady();
+
         // TODO HACK TEST REMOVE
-        if (IsServer && !string.IsNullOrEmpty("Lobby"))
+        // if (IsServer && !string.IsNullOrEmpty("Lobby"))
+        // {
+        //     // var status = NetworkManager.SceneManager.LoadScene("Game", LoadSceneMode.Single);
+        //     //
+        //     // if (status != SceneEventProgressStatus.Started)
+        //     // {
+        //     //     Debug.LogWarning($"Failed to load Game " +
+        //     //         $"with a {nameof(SceneEventProgressStatus)}: {status}");
+        //     // }
+        // }
+    }
+
+    void FixedUpdate()
+    {
+        if (!IsServer) return;
+        string text = "";
+        foreach (var client in NetworkManager.Singleton.ConnectedClients)
         {
+            PersistentPlayerManager player = client.Value.PlayerObject.GetComponent<PersistentPlayerManager>();
+            if (player.readyInLobby.Value)
+            {
+                text += player.GetName() + " - READY\n";
+                continue;
+            }
+            text += player.GetName() + " - WAITING\n";
+        }
+
+        updateLobbyListTextClientRpc(text);
+    }
+
+    private void checkAllPlayersReady()
+    {
+        int numReady = 0;
+        foreach (var client in NetworkManager.Singleton.ConnectedClients)
+        {
+            PersistentPlayerManager player = client.Value.PlayerObject.GetComponent<PersistentPlayerManager>();
+            if (player.readyInLobby.Value)
+            {
+                numReady ++;
+            }
+        }
+
+        if (numReady == NetworkManager.Singleton.ConnectedClients.Count) {
             var status = NetworkManager.SceneManager.LoadScene("Game", LoadSceneMode.Single);
             
             if (status != SceneEventProgressStatus.Started)
@@ -34,31 +83,15 @@ public class LobbyManager : NetworkBehaviour
         }
     }
 
-    // void Update()
-    // {
-    //     if (!IsServer) return;
-    //     string text = "";
-    //     foreach (KeyValuePair<string, bool> player in playersReady) 
-    //     {
-    //         if (player.Value)
-    //         {
-    //             text += player.Key + "- READY\n";
-    //             continue;
-    //         }
-    //         text += player.Key + "- WAITING\n";
-    //     }
-    //     // UpdateLobbyListTextClientRpc(text); TODO ADD BACK ON
-    // }
-
     // UpdateConnectedClients updates the LobbyList's local cache of connected playerNames
     [ServerRpc(RequireOwnership = false)]
-    public void UpdateLobbyListServerRpc(string playerName, bool ready)
+    public void UpdateLobbyListServerRpc(ulong clientId, bool ready)
     {
-        playersReady[playerName] = ready;
+        NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.GetComponent<PersistentPlayerManager>().readyInLobby.Value = ready;
     }
 
     [ClientRpc]
-    private void UpdateLobbyListTextClientRpc(string text)
+    private void updateLobbyListTextClientRpc(string text)
     {
         _lobbyList.text = text;
     }

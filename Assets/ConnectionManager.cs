@@ -14,8 +14,6 @@ public class ConnectionManager : NetworkBehaviour
     {
         if (IsServer && !string.IsNullOrEmpty("MainMenu"))
         {
-            NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PersistentPlayerManager>().SetName(_nameInputField.text);
-
             Debug.Log("Changing scene to Lobby");
             var status = NetworkManager.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
             
