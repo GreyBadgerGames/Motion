@@ -18,7 +18,14 @@ public class MainMenuManager : MonoBehaviour
     {
         _hostBtn.onClick.AddListener(hostButtonClicked);
         _clientBtn.onClick.AddListener(clientButtonClicked);
+        _exitToDesktopBtn.onClick.AddListener(exitToDesktopButtonClicked);
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
+    }
+
+
+    private void exitToDesktopButtonClicked()
+    {
+        Application.Quit();
     }
 
     // hostButton should only be called for testing
