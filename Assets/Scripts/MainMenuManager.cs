@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.UI;
 using TMPro;
+using Unity.Netcode.Transports.UTP;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -28,7 +29,12 @@ public class MainMenuManager : MonoBehaviour
 
     private void clientButtonClicked()
     {
+        if (_ipField.text != "")
+        {
+            NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = _ipField.text;
+        }
         NetworkManager.Singleton.StartClient();
+
     }
 
     void OnClientConnectedCallback(ulong clientId)
