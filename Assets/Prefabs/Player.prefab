@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1331626009956221073}
   - component: {fileID: 1331626009956221074}
   - component: {fileID: 8901418024890520315}
-  - component: {fileID: 574558452241926122}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -65,21 +64,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraHolder: {fileID: 1331626011103877386}
---- !u!114 &574558452241926122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1331626009956221072}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8aac89e1a376b445a95e604da06787f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxHealth: 100
-  _health:
-    m_InternalValue: 0
 --- !u!1 &1331626010057255839
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,6 +385,7 @@ GameObject:
   - component: {fileID: 5837324982513969883}
   - component: {fileID: 7904919736762686132}
   - component: {fileID: 3735900604473332184}
+  - component: {fileID: 5087768163329735264}
   m_Layer: 0
   m_Name: PlayerObject
   m_TagString: Player
@@ -454,7 +439,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c032f870daccbb84bb4f413bb83201fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetworkUI: {fileID: 0}
   movementSpeed: 7
   groundDrag: 5
   jumpForce: 6
@@ -521,3 +505,18 @@ MonoBehaviour:
   PlayerCamera: {fileID: 1331626010981178509}
   _projectileSpeed: 10
   _projectileDamage: 10
+--- !u!114 &5087768163329735264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1331626011835382728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca8c62fbd14c940469c8a5a873dd82fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 100
+  _health:
+    m_InternalValue: 0
