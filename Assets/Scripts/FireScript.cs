@@ -27,7 +27,7 @@ public class FireScript : NetworkBehaviour
             //    PlayerCamera.transform.forward
             //);
             FireLocal(
-                PlayerCamera.transform.position + PlayerCamera.transform.forward * 0.9f,
+                PlayerCamera.transform.position + PlayerCamera.transform.forward * 0.4f,
                 PlayerCamera.transform.rotation,
                 PlayerCamera.transform.forward
             );
@@ -53,6 +53,7 @@ public class FireScript : NetworkBehaviour
     {
         GameObject localProjectileInstance = Instantiate(LocalProjectileObject, spawnPos, spawnRotation);
         LocalProjectileManager localProjectile = localProjectileInstance.GetComponent<LocalProjectileManager>();
+        Physics.IgnoreCollision(localProjectileInstance.transform.GetChild(0).GetComponent<Collider>(), gameObject.transform.GetChild(0).GetComponent<Collider>());
         localProjectile.Setup(_projectileSpeed, _projectileDamage);
         localProjectile.Fire(fireDirection);
     }

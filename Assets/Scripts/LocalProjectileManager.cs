@@ -34,7 +34,7 @@ public class LocalProjectileManager : MonoBehaviour
 
 
         Debug.Log("Local projectile collided with " + collision.gameObject.name);
-        if (collision.gameObject.tag == "Player" && collision.gameobject)
+        if (collision.gameObject.tag == "Player")
         {
             GamePlayerManager player = collision.transform.parent.GetComponent<GamePlayerManager>(); // TODO Improve player structure/reference to remove this hack bit?
             player.ModifyHealthServerRpc(-_damage);
