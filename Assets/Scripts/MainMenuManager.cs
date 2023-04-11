@@ -22,6 +22,11 @@ public class MainMenuManager : MonoBehaviour
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
     }
 
+    private void Update()
+    {
+        _clientBtn.enabled = !(_nameField.text == "");
+        _hostBtn.enabled = !(_nameField.text == "");
+    }
 
     private void exitToDesktopButtonClicked()
     {
