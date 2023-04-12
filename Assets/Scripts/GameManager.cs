@@ -31,6 +31,7 @@ public class GameManager : NetworkBehaviour
         var playerNetworkObject = NetworkManager.Singleton.SpawnManager.GetPlayerNetworkObject(clientId);
         var newPlayer = Instantiate(_playerPrefab, Vector3.zero, Quaternion.identity);
         newPlayer.SpawnWithOwnership(clientId, true);
+        playerNetworkObject.GetComponent<PersistentPlayerManager>().gamePlayer = newPlayer.GetComponentInChildren<GamePlayerManager>();
     }
 
     // TODO DespawnPlayerObject...
