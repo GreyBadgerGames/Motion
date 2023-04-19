@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5315465300101960503}
   - component: {fileID: 7527879304371034555}
   - component: {fileID: 8017994868741670040}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LocalProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 5315465300961704254}
   - component: {fileID: 5315465300961704255}
   - component: {fileID: 5315465300961704248}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}

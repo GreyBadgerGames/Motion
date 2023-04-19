@@ -14,6 +14,10 @@ public class ProjectileManager : NetworkBehaviour
     private NetworkObject _networkObject;
     private bool _hasCollided = false;
 
+    public void Start()
+    {
+        Physics.IgnoreLayerCollision(7, 7);
+    }
     // SetupAndSpawn sets up the projectile, and creates it on the network
     public void SetupAndSpawn(float speed, float damage)
     {

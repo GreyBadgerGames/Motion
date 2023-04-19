@@ -13,7 +13,12 @@ public class LocalProjectileManager : MonoBehaviour
     private float _damage;
     private bool _hasCollided = false;
 
-    // SetupAndSpawn sets up the projectile, and creates it on the network
+    public void Start()
+    {
+        Physics.IgnoreLayerCollision(7, 7);
+    }
+
+// SetupAndSpawn sets up the projectile, and creates it on the network
     public void Setup(float speed, float damage)
     {
         _speed = speed;
@@ -30,15 +35,15 @@ public class LocalProjectileManager : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         if (_hasCollided) return;
-        //_hasCollided = true;
+        _hasCollided = true;
 
 
         Debug.Log("Local projectile collided with " + collision.gameObject.name);
-        if (collision.gameObject.tag == "Player")
-        {
-            GamePlayerManager player = collision.transform.parent.GetComponent<GamePlayerManager>(); // TODO Improve player structure/reference to remove this hack bit?
-            player.ModifyHealthServerRpc(-_damage);
-        }
+        //if (collision.gameObject.tag == "Player")
+        //{
+        //    GamePlayerManager player = collision.transform.parent.GetComponent<GamePlayerManager>(); // TODO Improve player structure/reference to remove this hack bit?
+        //    player.ModifyHealthServerRpc(-_damage);
+        //}
 
         Destroy(gameObject);
     }    
