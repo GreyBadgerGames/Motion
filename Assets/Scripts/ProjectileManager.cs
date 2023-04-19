@@ -19,7 +19,7 @@ public class ProjectileManager : NetworkBehaviour
         Physics.IgnoreLayerCollision(7, 7);
     }
     // SetupAndSpawn sets up the projectile, and creates it on the network
-    public void SetupAndSpawn(float speed, float damage)
+    public void SetupAndSpawn(float speed, float damage, ulong clientId)
     {
         _speed = speed;
         _damage = damage;
@@ -28,6 +28,11 @@ public class ProjectileManager : NetworkBehaviour
         gameObject.GetComponent<Rigidbody>().isKinematic = false;
 
         _networkObject.Spawn();
+        if (!IsServer)
+        {
+            _networkObject.NetworkHide(clientId);
+        }
+
     }
 
     // Fire adds an impulse force to the projectile's RigidBidy as an impluse
@@ -42,7 +47,7 @@ public class ProjectileManager : NetworkBehaviour
         _hasCollided = true;
         
 
-        Debug.Log("Projectile collided with " + collision.gameObject.name);
+        Debug.Log("Projectile collided with " + collision.gameObject.name + " At location " + gameObject.transform.position);
         if (collision.gameObject.tag == "Player")
         {
             GamePlayerManager player = collision.transform.parent.GetComponent<GamePlayerManager>(); // TODO Improve player structure/reference to remove this hack bit?
