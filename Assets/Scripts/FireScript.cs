@@ -22,7 +22,7 @@ public class FireScript : NetworkBehaviour
         requestFire = playerInput();
         if (requestFire == true) { 
             Fire(
-                PlayerCamera.transform.position + PlayerCamera.transform.forward,
+                PlayerCamera.transform.position + PlayerCamera.transform.forward * 0.1f,
                 PlayerCamera.transform.rotation,
                 PlayerCamera.transform.forward,
                 NetworkManager.LocalClientId
