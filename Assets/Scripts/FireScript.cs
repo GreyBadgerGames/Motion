@@ -9,6 +9,7 @@ public class FireScript : NetworkBehaviour
     public Transform orientation;
 
     [SerializeField] private GameObject ProjectileObject;
+    [SerializeField] private GameObject LocalProjectileObject;
     [SerializeField] private GameObject PlayerCamera;
     [SerializeField] private float _projectileSpeed;
     [SerializeField] private float _projectileDamage;
@@ -20,10 +21,11 @@ public class FireScript : NetworkBehaviour
         if (!IsOwner) return;
         requestFire = playerInput();
         if (requestFire == true) { 
-            FireServerRpc(
-                PlayerCamera.transform.position + PlayerCamera.transform.forward * 0.75f,
+            Fire(
+                PlayerCamera.transform.position + PlayerCamera.transform.forward * 0.1f,
                 PlayerCamera.transform.rotation,
-                PlayerCamera.transform.forward
+                PlayerCamera.transform.forward,
+                NetworkManager.LocalClientId
             );
             requestFire = false;
         }
@@ -34,13 +36,29 @@ public class FireScript : NetworkBehaviour
     }
     
     [ServerRpc]
-    void FireServerRpc(Vector3 spawnPos, Quaternion spawnRotation, Vector3 fireDirection)
+    void FireServerRpc(Vector3 spawnPos, Quaternion spawnRotation, Vector3 fireDirection, ulong clientId)
     {
-        Debug.Log("Spawn shot server mode!");
+        //Debug.Log("Server shot from " + clientId);
         GameObject projectileInstance = Instantiate(ProjectileObject, spawnPos, spawnRotation);
-        ProjectileManager projectile = projectileInstance.GetComponent<ProjectileManager>();
-        projectile.SetupAndSpawn(_projectileSpeed, _projectileDamage);
-        projectile.Fire(fireDirection);
+        ProjectileManager networkProjectileManager = projectileInstance.GetComponent<ProjectileManager>();
+        Physics.IgnoreCollision(projectileInstance.transform.GetChild(0).GetComponent<Collider>(), gameObject.transform.GetChild(0).GetComponent<Collider>());
+        networkProjectileManager.SetupAndSpawn(_projectileSpeed, _projectileDamage, clientId);
+        networkProjectileManager.Fire(fireDirection);
     }
 
+    void FireLocal(Vector3 spawnPos, Quaternion spawnRotation, Vector3 fireDirection, ulong clientId)
+    {
+        //Debug.Log("client shot from " + clientId);
+        GameObject localProjectileInstance = Instantiate(LocalProjectileObject, spawnPos, spawnRotation);
+        LocalProjectileManager localProjectileManager = localProjectileInstance.GetComponent<LocalProjectileManager>();
+        Physics.IgnoreCollision(localProjectileInstance.transform.GetChild(0).GetComponent<Collider>(), gameObject.transform.GetChild(0).GetComponent<Collider>());
+        localProjectileManager.Setup(_projectileSpeed, _projectileDamage);
+        localProjectileManager.Fire(fireDirection);
+    }
+
+    void Fire(Vector3 spawnPos, Quaternion spawnRotation, Vector3 fireDirection, ulong clientId)
+    {
+        FireLocal(spawnPos, spawnRotation, fireDirection, clientId);
+        FireServerRpc(spawnPos, spawnRotation, fireDirection, clientId); 
+    }
 }
