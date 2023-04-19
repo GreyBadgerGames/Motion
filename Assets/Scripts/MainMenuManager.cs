@@ -59,6 +59,8 @@ public class MainMenuManager : MonoBehaviour
 
     private void OnClientDisconnectCallback(ulong obj)
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         SceneManager.LoadScene("MainMenu");
     }
 }
