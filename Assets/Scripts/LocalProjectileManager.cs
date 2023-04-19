@@ -40,8 +40,9 @@ public class LocalProjectileManager : MonoBehaviour
         Debug.Log("Local projectile collided with " + collision.gameObject.name + " At location " + gameObject.transform.position);
         if (collision.gameObject.tag == "Player")
         {
-           GamePlayerManager player = collision.transform.parent.GetComponent<GamePlayerManager>();
-           player.ModifyHealthServerRpc(-_damage);
+            GamePlayerManager player = collision.gameObject.GetComponent<GamePlayerManager>();
+            Debug.Log("Trying to get GamePlayerManager: " + player);
+            player.ModifyHealthServerRpc(-_damage);
         }
 
         Destroy(gameObject);
