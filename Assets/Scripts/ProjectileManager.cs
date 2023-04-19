@@ -11,16 +11,32 @@ public class ProjectileManager : NetworkBehaviour
 {
     private float _speed;
     private float _damage;
+    private ulong _clientId;
     private NetworkObject _networkObject;
     private bool _hasCollided = false;
 
+    public void Start()
+    {
+        Physics.IgnoreLayerCollision(7, 7);
+    }
     // SetupAndSpawn sets up the projectile, and creates it on the network
-    public void SetupAndSpawn(float speed, float damage)
+    public void SetupAndSpawn(float speed, float damage, ulong clientId)
     {
         _speed = speed;
         _damage = damage;
+        _clientId = clientId;
         _networkObject = gameObject.GetComponent<NetworkObject>();
-        
+        _networkObject.CheckObjectVisibility = ((clientIdToCheck) =>
+        {
+            if (!IsServer && clientIdToCheck == _clientId)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        });
         gameObject.GetComponent<Rigidbody>().isKinematic = false;
 
         _networkObject.Spawn();
@@ -38,7 +54,7 @@ public class ProjectileManager : NetworkBehaviour
         _hasCollided = true;
         
 
-        Debug.Log("Projectile collided with " + collision.gameObject.name);
+        Debug.Log("Projectile collided with " + collision.gameObject.name + " At location " + gameObject.transform.position);
         if (collision.gameObject.tag == "Player")
         {
             GamePlayerManager player = collision.transform.parent.GetComponent<GamePlayerManager>(); // TODO Improve player structure/reference to remove this hack bit?

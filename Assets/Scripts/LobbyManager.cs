@@ -29,7 +29,7 @@ public class LobbyManager : NetworkBehaviour
     {
         ready = !ready;
         UpdateLobbyListServerRpc(NetworkManager.LocalClientId, ready);
-        checkAllPlayersReady();
+        CheckAllPlayersReadyServerRpc();
     }
 
     private void exitLobbyButtonClicked()
@@ -75,7 +75,8 @@ public class LobbyManager : NetworkBehaviour
         updateLobbyListTextClientRpc(text);
     }
 
-    private void checkAllPlayersReady()
+    [ServerRpc(RequireOwnership = false)]
+    private void CheckAllPlayersReadyServerRpc()
     {
         int numReady = 0;
         foreach (var client in NetworkManager.Singleton.ConnectedClients)
