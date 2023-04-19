@@ -24,15 +24,20 @@ public class ProjectileManager : NetworkBehaviour
         _speed = speed;
         _damage = damage;
         _networkObject = gameObject.GetComponent<NetworkObject>();
-        
+        _networkObject.CheckObjectVisibility = ((clientId) =>
+        {
+            if (!IsServer)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        });
         gameObject.GetComponent<Rigidbody>().isKinematic = false;
 
         _networkObject.Spawn();
-        if (!IsServer)
-        {
-            _networkObject.NetworkHide(clientId);
-        }
-
     }
 
     // Fire adds an impulse force to the projectile's RigidBidy as an impluse
