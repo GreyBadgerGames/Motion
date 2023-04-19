@@ -10,6 +10,7 @@ public class PersistentPlayerManager : NetworkBehaviour
     private NetworkVariable<FixedString32Bytes> _name = new NetworkVariable<FixedString32Bytes>(default,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkVariable<bool> readyInLobby = new NetworkVariable<bool>();
+    public GamePlayerManager gamePlayer;
 
     public override void OnNetworkSpawn()
     {

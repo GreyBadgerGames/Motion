@@ -37,13 +37,13 @@ public class LocalProjectileManager : MonoBehaviour
         if (_hasCollided) return;
         _hasCollided = true;
 
-
         Debug.Log("Local projectile collided with " + collision.gameObject.name + " At location " + gameObject.transform.position);
-        //if (collision.gameObject.tag == "Player")
-        //{
-        //    GamePlayerManager player = collision.transform.parent.GetComponent<GamePlayerManager>(); // TODO Improve player structure/reference to remove this hack bit?
-        //    player.ModifyHealthServerRpc(-_damage);
-        //}
+        if (collision.gameObject.tag == "Player")
+        {
+            GamePlayerManager player = collision.gameObject.GetComponent<GamePlayerManager>();
+            Debug.Log("Trying to get GamePlayerManager: " + player);
+            player.ModifyHealthServerRpc(-_damage);
+        }
 
         Destroy(gameObject);
     }    

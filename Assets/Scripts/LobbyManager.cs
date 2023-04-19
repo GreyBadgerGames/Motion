@@ -20,6 +20,8 @@ public class LobbyManager : NetworkBehaviour
         UpdateLobbyListServerRpc(NetworkManager.LocalClientId, ready);
 
         _readyButton.onClick.AddListener(readyButtonClicked);
+        _exitLobbyBtn.onClick.AddListener(exitLobbyButtonClicked);
+        _exitToDesktopBtn.onClick.AddListener(exitToDesktopButtonClicked);
         base.OnNetworkSpawn();
     }
 
@@ -28,6 +30,31 @@ public class LobbyManager : NetworkBehaviour
         ready = !ready;
         UpdateLobbyListServerRpc(NetworkManager.LocalClientId, ready);
         CheckAllPlayersReadyServerRpc();
+    }
+
+    private void exitLobbyButtonClicked()
+    {
+        if (IsHost) // TODO Remove - hack for host local testing
+        {
+            SceneManager.LoadScene("MainMenu");
+            NetworkManager.Singleton.Shutdown();
+            return;
+        }
+
+        Debug.LogWarning($"Requesting to disconnect {NetworkManager.LocalClientId}");
+        disconnectClientServerRpc(NetworkManager.LocalClientId);
+    }
+
+    [ServerRpc (RequireOwnership = false)]
+    private void disconnectClientServerRpc(ulong clientId)
+    {
+        Debug.LogWarning($"Disconnecting {clientId}");
+        NetworkManager.Singleton.DisconnectClient(clientId);
+    }
+
+    private void exitToDesktopButtonClicked()
+    {
+        Application.Quit();
     }
 
     void FixedUpdate()

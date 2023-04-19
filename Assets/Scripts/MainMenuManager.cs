@@ -5,6 +5,7 @@ using Unity.Netcode;
 using UnityEngine.UI;
 using TMPro;
 using Unity.Netcode.Transports.UTP;
+using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -18,7 +19,20 @@ public class MainMenuManager : MonoBehaviour
     {
         _hostBtn.onClick.AddListener(hostButtonClicked);
         _clientBtn.onClick.AddListener(clientButtonClicked);
+        _exitToDesktopBtn.onClick.AddListener(exitToDesktopButtonClicked);
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
+        NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectCallback;
+    }
+
+    private void Update()
+    {
+        _clientBtn.enabled = !(_nameField.text == "");
+        _hostBtn.enabled = !(_nameField.text == "");
+    }
+
+    private void exitToDesktopButtonClicked()
+    {
+        Application.Quit();
     }
 
     // hostButton should only be called for testing
@@ -41,5 +55,12 @@ public class MainMenuManager : MonoBehaviour
     {
         Debug.Log($"Client connected, clientId: {clientId}");
         NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PersistentPlayerManager>().SetNameServerRpc(_nameField.text);
+    }
+
+    private void OnClientDisconnectCallback(ulong obj)
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        SceneManager.LoadScene("MainMenu");
     }
 }
