@@ -11,6 +11,7 @@ public class ProjectileManager : NetworkBehaviour
 {
     private float _speed;
     private float _damage;
+    private ulong _clientId;
     private NetworkObject _networkObject;
     private bool _hasCollided = false;
 
@@ -23,10 +24,11 @@ public class ProjectileManager : NetworkBehaviour
     {
         _speed = speed;
         _damage = damage;
+        _clientId = clientId;
         _networkObject = gameObject.GetComponent<NetworkObject>();
-        _networkObject.CheckObjectVisibility = ((clientId) =>
+        _networkObject.CheckObjectVisibility = ((clientIdToCheck) =>
         {
-            if (!IsServer)
+            if (!IsServer && clientIdToCheck == _clientId)
             {
                 return false;
             }
