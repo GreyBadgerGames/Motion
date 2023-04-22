@@ -6,14 +6,16 @@ using Unity.Netcode;
 // GamePlayerManager runs the player specific logic when in game
 public class GamePlayerManager : NetworkBehaviour
 {
-    [SerializeField] private float _maxHealth = 100;
+    [SerializeField] public float _maxHealth = 100;
     public NetworkVariable<float> _health = new NetworkVariable<float>(default,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    private GameManager m_gameManager;
 
     public override void OnNetworkSpawn()
     {
         setPlayerHealth();
         assignToPersistentPlayer();
+        m_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     void Update()
@@ -33,12 +35,17 @@ public class GamePlayerManager : NetworkBehaviour
     }
 
     [ServerRpc (RequireOwnership = false)]
-    public void ModifyHealthServerRpc(float mod)
+    public void ReportDamageServerRpc(float mod, ulong damagerId)
     {
+        // TODO Check this report can be legitimate
         _health.Value += mod;
         if (_health.Value > _maxHealth)
         {
             _health.Value = _maxHealth;
+        }
+        else if (_health.Value <= 0)
+        {
+            GameObject.Find("GameManager").GetComponent<GameManager>().ReportDeathServerRpc(OwnerClientId, damagerId);
         }
     }
 
@@ -47,5 +54,11 @@ public class GamePlayerManager : NetworkBehaviour
     {
         if (!IsClient || !IsOwner) return;
         NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PersistentPlayerManager>().gamePlayer = this;
+    }
+
+    [ClientRpc]
+    public void SetPositionAndRotationClientRpc(Vector3 pos, Quaternion rotation, ClientRpcParams clientRpcParams = default)
+    {
+        transform.SetPositionAndRotation(pos, rotation);
     }
 }

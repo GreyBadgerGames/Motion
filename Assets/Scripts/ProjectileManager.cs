@@ -58,7 +58,7 @@ public class ProjectileManager : NetworkBehaviour
         if (collision.gameObject.tag == "Player")
         {
             GamePlayerManager player = collision.transform.parent.GetComponent<GamePlayerManager>(); // TODO Improve player structure/reference to remove this hack bit?
-            player.ModifyHealthServerRpc(- _damage);
+            player.ReportDamageServerRpc(- _damage, OwnerClientId);
         }
         
         _networkObject.Despawn();    
