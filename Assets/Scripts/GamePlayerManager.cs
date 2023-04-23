@@ -9,13 +9,11 @@ public class GamePlayerManager : NetworkBehaviour
     [SerializeField] public float _maxHealth = 100;
     public NetworkVariable<float> _health = new NetworkVariable<float>(default,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    private GameManager m_gameManager;
 
     public override void OnNetworkSpawn()
     {
         setPlayerHealth();
         assignToPersistentPlayer();
-        m_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     void Update()
