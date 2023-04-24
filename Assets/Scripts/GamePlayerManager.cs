@@ -13,6 +13,7 @@ public class GamePlayerManager : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         setPlayerHealth();
+        assignToPersistentPlayer();
     }
 
     void Update()
@@ -39,5 +40,12 @@ public class GamePlayerManager : NetworkBehaviour
         {
             _health.Value = _maxHealth;
         }
+    }
+
+    // assignToPersistentPlayer runs on client to assign this to the owning PersistentPlayerObject
+    private void assignToPersistentPlayer()
+    {
+        if (!IsClient || !IsOwner) return;
+        NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PersistentPlayerManager>().gamePlayer = this;
     }
 }
