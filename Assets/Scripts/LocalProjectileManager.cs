@@ -42,7 +42,7 @@ public class LocalProjectileManager : MonoBehaviour
         {
             GamePlayerManager player = collision.gameObject.GetComponent<GamePlayerManager>();
             Debug.Log("Trying to get GamePlayerManager: " + player);
-            player.ModifyHealthServerRpc(-_damage);
+            player.ReportDamageServerRpc(- _damage, NetworkManager.Singleton.LocalClientId);
         }
 
         Destroy(gameObject);

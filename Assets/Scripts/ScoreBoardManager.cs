@@ -9,6 +9,7 @@ using Unity.Collections;
 public class ScoreBoardManager : NetworkBehaviour
 {
     [SerializeField] private Transform m_scrollViewContent;
+    [SerializeField] private TMP_Text m_roundsText;
     [SerializeField] private GameObject m_playerBarPrefab;
 
     void Start()
@@ -22,7 +23,7 @@ public class ScoreBoardManager : NetworkBehaviour
 
         if (!IsServer) return;
         Dictionary<string, string> playersDict = new Dictionary<string, string>();
-        string playersString = "";
+        string playersString = "<b>Player Name</b>:<b>Health</b>,"; // Set header text
         foreach (var client in NetworkManager.Singleton.ConnectedClients)
         {
             PersistentPlayerManager persistentPlayer = client.Value.PlayerObject.GetComponent<PersistentPlayerManager>();
@@ -38,6 +39,11 @@ public class ScoreBoardManager : NetworkBehaviour
     private void UpdateScoreBoardClientRpc(string playerString)
     {
         if (!Input.GetKey(KeyCode.Tab)) return; // Tab not pressed so don't actually need to update anything
+
+        // Update rounds text
+        GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        m_roundsText.text = $"Round {gm.m_numOfRounds.Value}/{gm.m_maxRounds}";
+
         foreach (RectTransform oldBar in m_scrollViewContent.transform)
         { 
             Destroy(oldBar.gameObject);             
