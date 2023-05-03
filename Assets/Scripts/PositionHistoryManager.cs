@@ -1,15 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class PositionHistoryManager : MonoBehaviour
+public class PositionHistoryManager : NetworkBehaviour
 {
     [SerializeField] private GameObject _playerObject;
-    public Vector3[] positionHistory = new Vector3[44];
 
-    // Start is called before the first frame update
+    public Vector3[] positionHistory = new Vector3[44];
+    public Vector3 pos1;
+    public Vector3 pos2;
+
+
     void Start()
-    {
+    { 
 
     }
 
@@ -17,7 +21,7 @@ public class PositionHistoryManager : MonoBehaviour
     void FixedUpdate()
     {
         UpdatePositionHistory(_playerObject.transform.position);
-        Debug.Log(positionHistory[0]);
+        //SpeedSqrMagnitudeCheck();
     }
 
     void UpdatePositionHistory(Vector3 currentPosition)
@@ -31,8 +35,23 @@ public class PositionHistoryManager : MonoBehaviour
             }
             if (i == (positionHistory.Length - 1))
             {
-                positionHistory[i] = currentPosition;
+                positionHistory[i] = currentPosition; 
             }
         }
+    }
+
+//Prints Square magnitude of position differences to console for debug
+    void SpeedSqrMagnitudeCheck()
+    {
+        pos1 = positionHistory[2];
+        pos2 = positionHistory[1];
+        Vector3 vector3 = pos1 - pos2;
+        float sqrLen = vector3.sqrMagnitude;
+        Debug.Log(sqrLen);
+    }
+
+    public Vector3[] GetPositionHistory()
+    {
+        return positionHistory;
     }
 }
