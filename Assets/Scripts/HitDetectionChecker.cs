@@ -6,12 +6,6 @@ using Unity.Netcode;
 public class HitDetectionChecker : NetworkBehaviour
 {
 
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public bool HitDetection(Vector3 playerHitPosition, Vector3[] playerLocationHistory)
     {
         foreach (Vector3 i in playerLocationHistory)

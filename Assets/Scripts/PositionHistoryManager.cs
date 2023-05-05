@@ -7,7 +7,7 @@ public class PositionHistoryManager : NetworkBehaviour
 {
     [SerializeField] private GameObject _playerObject;
 
-    public Vector3[] positionHistory = new Vector3[44];
+    public Vector3[] positionHistory = new Vector3[3];
     public Vector3 pos1;
     public Vector3 pos2;
 
@@ -20,12 +20,14 @@ public class PositionHistoryManager : NetworkBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        UpdatePositionHistory(_playerObject.transform.position);
+        UpdatePositionHistoryServerRpc(_playerObject.transform.position);
         //SpeedSqrMagnitudeCheck();
     }
 
-    void UpdatePositionHistory(Vector3 currentPosition)
+    [ServerRpc]
+    void UpdatePositionHistoryServerRpc(Vector3 currentPosition)
     {
+        if (!IsServer) return;
         //Loop through array and shift values one position left
         for (int i = 0; i < positionHistory.Length; i++)
         {

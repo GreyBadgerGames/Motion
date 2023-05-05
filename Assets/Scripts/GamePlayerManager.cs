@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
@@ -33,22 +33,39 @@ public class GamePlayerManager : NetworkBehaviour
     }
 
     [ServerRpc (RequireOwnership = false)]
-    public void ReportDamageServerRpc(float mod, ulong damagerId)
+    public void RequestHitServerRpc(float mod, ulong damagerId, Vector3[] targetLocationHistory, Vector3 targetPosition)
     {
         // TODO Check this report can be legitimate
-        _health.Value += mod;
-        if (_health.Value > _maxHealth)
-        {
-            _health.Value = _maxHealth;
-        }
-        else if (_health.Value <= 0)
-        {
-            GameObject.Find("GameManager").GetComponent<GameManager>().ReportDeathServerRpc(OwnerClientId, damagerId);
+        if (HitDetection(targetPosition, targetLocationHistory)) {
+            _health.Value += mod;
+            if (_health.Value > _maxHealth)
+            {
+                _health.Value = _maxHealth;
+            }
+            else if (_health.Value <= 0)
+            {
+                GameObject.Find("GameManager").GetComponent<GameManager>().ReportDeathServerRpc(OwnerClientId, damagerId);
+            }
         }
     }
 
-    // assignToPersistentPlayer runs on client to assign this to the owning PersistentPlayerObject
-    private void assignToPersistentPlayer()
+    private bool HitDetection(Vector3 playerHitPosition, Vector3[] playerLocationHistory)
+    {
+        foreach (Vector3 i in playerLocationHistory)
+        {
+            Vector3 vectordiff = playerHitPosition - i;
+            float locationDiff = vectordiff.sqrMagnitude;
+
+            if (locationDiff < 0.025)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+        // assignToPersistentPlayer runs on client to assign this to the owning PersistentPlayerObject
+        private void assignToPersistentPlayer()
     {
         if (!IsClient || !IsOwner) return;
         NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PersistentPlayerManager>().gamePlayer = this;
