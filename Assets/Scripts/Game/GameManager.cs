@@ -13,6 +13,12 @@ public class GameManager : NetworkBehaviour
     public NetworkVariable<int> m_numOfRounds = new NetworkVariable<int>(default,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
+    public void Start()
+    {
+        // Hack to allow starting the game in editor from Game scene :)
+        if (NetworkManager.Singleton == null) SceneManager.LoadScene("Startup");
+    }
+
     public override void OnNetworkSpawn()
     {
         if (!IsServer) return;
