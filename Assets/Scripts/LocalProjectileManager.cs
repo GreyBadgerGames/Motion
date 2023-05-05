@@ -50,7 +50,10 @@ public class LocalProjectileManager : MonoBehaviour
         {
             GamePlayerManager player = collision.gameObject.GetComponent<GamePlayerManager>();
             Debug.Log("Trying to get GamePlayerManager: " + player);
-            player.ReportDamageServerRpc(- _damage, NetworkManager.Singleton.LocalClientId);
+            PositionHistoryManager positionHistoryManager = collision.gameObject.GetComponent<PositionHistoryManager>();
+            HitDetectionChecker hitDetectionChecker = collision.gameObject.GetComponent<HitDetectionChecker>();
+            Vector3[] positionHistory = positionHistoryManager.GetPositionHistory();
+            player.RequestHitServerRpc(-_damage, NetworkManager.Singleton.LocalClientId, positionHistory, collision.gameObject.transform.position);
         }
 
         Destroy(gameObject);
