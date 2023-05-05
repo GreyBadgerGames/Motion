@@ -24,7 +24,7 @@ public class PositionHistoryManager : NetworkBehaviour
         //SpeedSqrMagnitudeCheck();
     }
 
-    [ServerRpc]
+    [ServerRpc (RequireOwnership = false)]
     void UpdatePositionHistoryServerRpc(Vector3 currentPosition)
     {
         if (!IsServer) return;
