@@ -18,7 +18,7 @@ public class ProjectileManager : NetworkBehaviour
     public void Update()
     {
         if (!IsServer) return;
-        
+
         // Rotate the collider and set the length based on the current projectile speed
         // TODO Stop this spamming logs "Look rotation viewing vector is zero"
         transform.rotation = Quaternion.LookRotation(_rigidBody.velocity);
@@ -37,14 +37,7 @@ public class ProjectileManager : NetworkBehaviour
         _rigidBody.isKinematic = false;
         _networkObject.CheckObjectVisibility = ((clientIdToCheck) =>
         {
-            if (!IsServer && clientIdToCheck == _clientId)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return !(!IsServer && clientIdToCheck == _clientId);
         });
        
         Physics.IgnoreLayerCollision(7, 7); // Ensure projectiles don't hit others
