@@ -3,15 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
-// Maybe move Projectile to Pooled Dynamic Spawning if we see performance issues?
-// https://docs-multiplayer.unity3d.com/netcode/current/basics/object-spawning/index.html#pooled-dynamic-spawning
-
-// ProjectileManager manages a generic projectile, with projectiles stats being set by the firer
 public class LocalProjectileManager : GenericProjectileManager
 {
     public override void Update()
     {
-        // Rotate the collider and set the length based on the current projectile speed
         SetColliderRotation();
         SetColliderLength();
     }
