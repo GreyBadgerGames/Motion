@@ -58,9 +58,11 @@ public class GamePlayerManager : NetworkBehaviour
 
             if (locationDiff < 0.025)
             {
+                Debug.Log("Valid Hit");
                 return true;
             }
         }
+        Debug.Log("Invalid Hit");
         return false;
     }
 
