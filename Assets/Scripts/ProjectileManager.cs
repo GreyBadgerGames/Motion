@@ -18,6 +18,7 @@ public class ProjectileManager : NetworkBehaviour
     public void Update()
     {
         // Rotate the collider and set the length based on the current projectile speed
+        // TODO Stop this spamming logs "Look rotation viewing vector is zero"
         transform.rotation = Quaternion.LookRotation(_rigidBody.velocity);
         GenericProjectile.SetColliderLength(_rigidBody, _transform, _collider, k_physicsUpdateTimeSeconds);
     }
@@ -49,10 +50,10 @@ public class ProjectileManager : NetworkBehaviour
         _networkObject.Spawn();
     }
 
-    // Fire adds an impulse force to the projectile's RigidBidy as an impluse
+
     public void Fire(Vector3 direction)
     {
-        _rigidBody.AddForce(direction * _speed, ForceMode.Impulse);
+        GenericProjectile.Fire(direction, _rigidBody, _speed);
     }
 
     void OnCollisionEnter(Collision collision) 
@@ -65,6 +66,7 @@ public class ProjectileManager : NetworkBehaviour
 }
 
 // GenericProjectile defines methods to be used by both Network and Local projectile types
+// TODO Make the projectiles implement this base class, and override the methods?
 public class GenericProjectile : MonoBehaviour
 {
     // SetColliderLength calculates the minimum length of the projectile collider, based off the current velocity.
@@ -82,5 +84,11 @@ public class GenericProjectile : MonoBehaviour
         
         // Shuffle the collider so the front is inline with the front of the projectile
         collider.center = new Vector3(0,0, -(float)(collider.height/2 - collider.radius));
-    }  
+    }
+
+    // Fire adds an impulse force to the projectile's RigidBidy as an impluse
+    public static void Fire(Vector3 direction, Rigidbody rb, float speed)
+    {
+        rb.AddForce(direction * speed, ForceMode.Impulse);
+    }
 }

@@ -523,6 +523,7 @@ MonoBehaviour:
   _maxHealth: 100
   _health:
     m_InternalValue: 0
+  _positionHistoryManager: {fileID: 8497612590658766276}
 --- !u!114 &8497612590658766276
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -34,10 +34,9 @@ public class LocalProjectileManager : MonoBehaviour
         Physics.IgnoreLayerCollision(7, 7); // Ensure projectiles don't hit others
     }
 
-    // Fire adds an impulse force to the projectile's RigidBidy as an impluse
     public void Fire(Vector3 direction)
     {
-        _rigidBody.AddForce(direction * _speed, ForceMode.Impulse);
+        GenericProjectile.Fire(direction, _rigidBody, _speed);
     }
 
     void OnCollisionEnter(Collision collision)
@@ -50,10 +49,7 @@ public class LocalProjectileManager : MonoBehaviour
         {
             GamePlayerManager player = collision.gameObject.GetComponent<GamePlayerManager>();
             Debug.Log("Trying to get GamePlayerManager: " + player);
-            PositionHistoryManager positionHistoryManager = collision.gameObject.GetComponent<PositionHistoryManager>();
-            HitDetectionChecker hitDetectionChecker = collision.gameObject.GetComponent<HitDetectionChecker>();
-            Vector3[] positionHistory = positionHistoryManager.GetPositionHistory();
-            player.RequestHitServerRpc(-_damage, NetworkManager.Singleton.LocalClientId, positionHistory, collision.gameObject.transform.position);
+            player.RequestHitServerRpc(-_damage, NetworkManager.Singleton.LocalClientId, collision.gameObject.transform.position);
         }
 
         Destroy(gameObject);

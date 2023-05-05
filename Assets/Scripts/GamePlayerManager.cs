@@ -9,6 +9,7 @@ public class GamePlayerManager : NetworkBehaviour
     [SerializeField] public float _maxHealth = 100;
     public NetworkVariable<float> _health = new NetworkVariable<float>(default,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    [SerializeField] private PositionHistoryManager _positionHistoryManager;
 
     public override void OnNetworkSpawn()
     {
@@ -33,10 +34,9 @@ public class GamePlayerManager : NetworkBehaviour
     }
 
     [ServerRpc (RequireOwnership = false)]
-    public void RequestHitServerRpc(float mod, ulong damagerId, Vector3[] targetLocationHistory, Vector3 targetPosition)
+    public void RequestHitServerRpc(float mod, ulong damagerId, Vector3 targetPosition)
     {
-        // TODO Check this report can be legitimate
-        if (HitDetection(targetPosition, targetLocationHistory)) {
+        if (IsValidHit(targetPosition)) {
             _health.Value += mod;
             if (_health.Value > _maxHealth)
             {
@@ -49,9 +49,11 @@ public class GamePlayerManager : NetworkBehaviour
         }
     }
 
-    private bool HitDetection(Vector3 playerHitPosition, Vector3[] playerLocationHistory)
+    private bool IsValidHit(Vector3 playerHitPosition)
     {
-        foreach (Vector3 i in playerLocationHistory)
+        Vector3[] positionHistory = _positionHistoryManager.GetPositionHistory();
+
+        foreach (Vector3 i in positionHistory)
         {
             Vector3 vectordiff = playerHitPosition - i;
             float locationDiff = vectordiff.sqrMagnitude;
@@ -61,13 +63,14 @@ public class GamePlayerManager : NetworkBehaviour
                 Debug.Log("Valid Hit");
                 return true;
             }
+            Debug.Log($"Invalid check - {playerHitPosition} in {i} - distance {locationDiff}");
         }
         Debug.Log("Invalid Hit");
         return false;
     }
 
-        // assignToPersistentPlayer runs on client to assign this to the owning PersistentPlayerObject
-        private void assignToPersistentPlayer()
+    // assignToPersistentPlayer runs on client to assign this to the owning PersistentPlayerObject
+    private void assignToPersistentPlayer()
     {
         if (!IsClient || !IsOwner) return;
         NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PersistentPlayerManager>().gamePlayer = this;

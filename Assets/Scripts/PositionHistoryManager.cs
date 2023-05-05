@@ -6,16 +6,9 @@ using Unity.Netcode;
 public class PositionHistoryManager : NetworkBehaviour
 {
     [SerializeField] private GameObject _playerObject;
-
     public Vector3[] positionHistory = new Vector3[3];
     public Vector3 pos1;
     public Vector3 pos2;
-
-
-    void Start()
-    { 
-
-    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -42,7 +35,7 @@ public class PositionHistoryManager : NetworkBehaviour
         }
     }
 
-//Prints Square magnitude of position differences to console for debug
+    //Prints Square magnitude of position differences to console for debug
     void SpeedSqrMagnitudeCheck()
     {
         pos1 = positionHistory[2];
