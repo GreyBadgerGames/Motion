@@ -26,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5315465300101960497}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 812.0569, y: 340.78006, z: -10.368333}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.04, y: 0.04, z: 0.04}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5315465300961704249}
@@ -62,6 +62,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f435ecfdfcc2160439543b88854a900c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _collider: {fileID: 671754985163441801}
+  _transform: {fileID: 5315465300101960503}
 --- !u!1 &5315465300961704250
 GameObject:
   m_ObjectHideFlags: 0
@@ -73,7 +75,7 @@ GameObject:
   - component: {fileID: 5315465300961704249}
   - component: {fileID: 5315465300961704254}
   - component: {fileID: 5315465300961704255}
-  - component: {fileID: 5315465300961704248}
+  - component: {fileID: 671754985163441801}
   m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
@@ -90,7 +92,7 @@ Transform:
   m_GameObject: {fileID: 5315465300961704250}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5315465300101960503}
@@ -146,8 +148,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &5315465300961704248
-SphereCollider:
+--- !u!136 &671754985163441801
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -156,6 +158,7 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
   m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}

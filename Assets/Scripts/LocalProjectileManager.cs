@@ -12,24 +12,32 @@ public class LocalProjectileManager : MonoBehaviour
     private float _speed;
     private float _damage;
     private bool _hasCollided = false;
+    private double k_physicsUpdateTimeSeconds = 0.02;
+    [SerializeField] private CapsuleCollider _collider;
+    [SerializeField] private Transform _transform;
+    private Rigidbody _rigidBody;
 
-    public void Start()
+    public void Update()
     {
-        Physics.IgnoreLayerCollision(7, 7);
+        // Rotate the collider and set the length based on the current projectile speed
+        transform.rotation = Quaternion.LookRotation(_rigidBody.velocity);
+        GenericProjectile.SetColliderLength(_rigidBody, _transform, _collider, k_physicsUpdateTimeSeconds);
     }
 
-// SetupAndSpawn sets up the projectile, and creates it on the network
     public void Setup(float speed, float damage)
     {
+        _rigidBody = gameObject.GetComponent<Rigidbody>();
         _speed = speed;
         _damage = damage;
-        gameObject.GetComponent<Rigidbody>().isKinematic = false;
+        _rigidBody.isKinematic = false;
+
+        Physics.IgnoreLayerCollision(7, 7); // Ensure projectiles don't hit others
     }
 
     // Fire adds an impulse force to the projectile's RigidBidy as an impluse
     public void Fire(Vector3 direction)
     {
-        gameObject.GetComponent<Rigidbody>().AddForce(direction * _speed, ForceMode.Impulse);
+        _rigidBody.AddForce(direction * _speed, ForceMode.Impulse);
     }
 
     void OnCollisionEnter(Collision collision)
@@ -46,6 +54,5 @@ public class LocalProjectileManager : MonoBehaviour
         }
 
         Destroy(gameObject);
-    }    
-    
+    }
 }
