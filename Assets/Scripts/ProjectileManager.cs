@@ -55,11 +55,13 @@ public class ProjectileManager : NetworkBehaviour
         
 
         Debug.Log("Projectile collided with " + collision.gameObject.name + " At location " + gameObject.transform.position);
-        if (collision.gameObject.tag == "Player")
+        /*if (collision.gameObject.tag == "Player")
         {
-            GamePlayerManager player = collision.transform.parent.GetComponent<GamePlayerManager>(); // TODO Improve player structure/reference to remove this hack bit?
-            player.ReportDamageServerRpc(- _damage, OwnerClientId);
-        }
+            GamePlayerManager player = collision.transform.parent.GetComponent<GamePlayerManager>();
+            PositionHistoryManager positionHistoryManager = collision.gameObject.GetComponent<PositionHistoryManager>();
+            Vector3[] positionHistory = positionHistoryManager.GetPositionHistory();// TODO Improve player structure/reference to remove this hack bit?
+            player.RequestHitServerRpc(- _damage, OwnerClientId, positionHistory, collision.gameObject.transform.position);
+        }*/
         
         _networkObject.Despawn();    
     }
