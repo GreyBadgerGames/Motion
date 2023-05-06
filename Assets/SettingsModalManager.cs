@@ -56,9 +56,23 @@ public class SettingsModalManager : MonoBehaviour
         _resolutions.Add(new Resolution() {Name = "1280 x 720", Width = 1280, Height = 720});
 
         _resolutionDropdown.options.Clear();
+
+        int i = 0;
         foreach (Resolution resolution in _resolutions)
         {
             _resolutionDropdown.options.Add(new TMP_Dropdown.OptionData() {text = resolution.Name});
+            
+            if (Screen.height == resolution.Height && Screen.width == resolution.Width)
+            {
+                // Stupid hack because you can't set placeholder text in dropdown, and without this
+                // the application resets its resolution/window mode, which is quite jarring
+                _resolutionDropdown.onValueChanged.RemoveAllListeners();
+                _resolutionDropdown.value = i;
+                _resolutionDropdown.onValueChanged.AddListener(delegate {
+                    resolutionDropdownChange();
+                });
+            }
+            i++;
         }
     }
 
@@ -77,9 +91,21 @@ public class SettingsModalManager : MonoBehaviour
         _windowModes.Add(new WindowMode() {Name = "Windowed", Mode=FullScreenMode.Windowed});
 
         _windowModeDropdown.options.Clear();
+
+        int i = 0;
         foreach (WindowMode windowMode in _windowModes)
         {
             _windowModeDropdown.options.Add(new TMP_Dropdown.OptionData() {text = windowMode.Name});
+
+            if (Screen.fullScreenMode == windowMode.Mode)
+            {
+                _windowModeDropdown.onValueChanged.RemoveAllListeners();
+                _windowModeDropdown.captionText.text = windowMode.Name;
+                _windowModeDropdown.onValueChanged.AddListener(delegate {
+                    windowModeDropdownChange();
+                });
+            }
+            i++;
         }
     }
 
