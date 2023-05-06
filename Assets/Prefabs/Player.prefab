@@ -226,7 +226,7 @@ MonoBehaviour:
   sensX: 11
   sensY: 11
   orientation: {fileID: 1331626010057255832}
-  PlayerObject: {fileID: 0}
+  PlayerObject: {fileID: 1331626011835382728}
 --- !u!1 &1331626011103877386
 GameObject:
   m_ObjectHideFlags: 0

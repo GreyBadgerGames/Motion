@@ -17,16 +17,6 @@ public class GamePlayerManager : NetworkBehaviour
         assignToPersistentPlayer();
     }
 
-    void Update()
-    {
-        if (!IsServer) return;
-        
-        if (_health.Value <= 0)
-        {
-            _health.Value = _maxHealth;
-        }
-    }
-
     private void setPlayerHealth()
     {
         if (!IsServer) return;

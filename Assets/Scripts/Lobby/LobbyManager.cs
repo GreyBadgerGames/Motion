@@ -9,7 +9,8 @@ using Unity.Collections;
 
 public class LobbyManager : NetworkBehaviour
 {
-    [SerializeField] private Button _exitToDesktopBtn;
+    [SerializeField] private Button _settingsBtn;
+    [SerializeField] private GameObject _settingsModal;
     [SerializeField] private Button _exitLobbyBtn;
     [SerializeField] private Button _readyButton;
     [SerializeField] private TMP_Text _lobbyList;
@@ -17,11 +18,13 @@ public class LobbyManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        _settingsModal.SetActive(false);
+
         UpdateLobbyListServerRpc(NetworkManager.LocalClientId, ready);
 
         _readyButton.onClick.AddListener(readyButtonClicked);
         _exitLobbyBtn.onClick.AddListener(exitLobbyButtonClicked);
-        _exitToDesktopBtn.onClick.AddListener(exitToDesktopButtonClicked);
+        _settingsBtn.onClick.AddListener(settingsButtonClicked);
         base.OnNetworkSpawn();
     }
 
@@ -52,9 +55,9 @@ public class LobbyManager : NetworkBehaviour
         NetworkManager.Singleton.DisconnectClient(clientId);
     }
 
-    private void exitToDesktopButtonClicked()
+    private void settingsButtonClicked()
     {
-        Application.Quit();
+        _settingsModal.SetActive(true);
     }
 
     void FixedUpdate()
