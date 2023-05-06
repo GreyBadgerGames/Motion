@@ -451,6 +451,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   orientation: {fileID: 1331626010057255832}
+  gamePlayerManager: {fileID: 5087768163329735264}
 --- !u!114 &5837324982513969883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -523,6 +524,8 @@ MonoBehaviour:
   _health:
     m_InternalValue: 0
   _positionHistoryManager: {fileID: 8497612590658766276}
+  _viewController: {fileID: 1331626010981178505}
+  _canMove: 0
 --- !u!114 &8497612590658766276
 MonoBehaviour:
   m_ObjectHideFlags: 0

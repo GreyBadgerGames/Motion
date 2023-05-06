@@ -54,7 +54,8 @@ public class GameUIManager : MonoBehaviour
             allowMovement = true;
         }
 
-        // TODO Let the gamePlayerManager know if it is free to check for moves
+        // Let the gamePlayerManager know if it is free to check for moves
+        m_localGamePlayerManager._canMove = allowMovement;
         
         Cursor.visible = showCursor;
         if (showCursor) {

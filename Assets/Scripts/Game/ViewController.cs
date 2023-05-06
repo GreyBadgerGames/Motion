@@ -19,13 +19,12 @@ public class ViewController : NetworkBehaviour
         transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
-    void Update()
+    public void CheckRotation()
     {
         if (!IsOwner) return;
 
         float mouseX = Input.GetAxisRaw("Mouse X") * sensX;
         float mouseY = Input.GetAxisRaw("Mouse Y") * sensY;
-        Debug.Log(mouseY);
 
         yRotation += mouseX;
         xRotation -= mouseY;

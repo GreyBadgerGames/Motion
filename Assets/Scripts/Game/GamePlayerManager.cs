@@ -10,11 +10,18 @@ public class GamePlayerManager : NetworkBehaviour
     public NetworkVariable<float> _health = new NetworkVariable<float>(default,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     [SerializeField] private PositionHistoryManager _positionHistoryManager;
+    [SerializeField] private ViewController _viewController;
+    public bool _canMove;
 
     public override void OnNetworkSpawn()
     {
         setPlayerHealth();
         assignToPersistentPlayer();
+    }
+
+    public void Update()
+    {
+        if (_canMove) _viewController.CheckRotation();
     }
 
     private void setPlayerHealth()
