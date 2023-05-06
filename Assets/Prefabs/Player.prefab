@@ -508,6 +508,7 @@ MonoBehaviour:
   PlayerCamera: {fileID: 1331626010981178509}
   _projectileSpeed: 10
   _projectileDamage: 10
+  gamePlayerManager: {fileID: 5087768163329735264}
 --- !u!114 &5087768163329735264
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -50,7 +50,7 @@ public class GameUIManager : MonoBehaviour
         else if (requestScoreboard())
         {
             // Scoreboard open, show cursor and allow character move
-            showCursor = true;
+            showCursor = false; // TODO Add button to allow mouse?
             allowMovement = true;
         }
 
@@ -69,7 +69,7 @@ public class GameUIManager : MonoBehaviour
     // and if requesting to open it, returns true and sets it active
     private bool requestScoreboard()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKey(KeyCode.Tab))
         {
             if (!_scoreboard.enabled) _scoreboard.enabled = true; // If not active, set it active
             return true;
@@ -83,7 +83,7 @@ public class GameUIManager : MonoBehaviour
     // and if requesting to open it, returns true and sets it active
     private bool requestSettingsModal()
     {
-        if (Input.GetKey(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             _settingsModal.SetActive(true);
             return true;
