@@ -533,6 +533,7 @@ MonoBehaviour:
   _exitLobbyBtn: {fileID: 1055104885}
   _readyButton: {fileID: 881559119}
   _lobbyList: {fileID: 148485429}
+  _gameModePrefab: {fileID: 496776672867744342, guid: aeb410fb27d26a84eb11b2502c66a23e, type: 3}
 --- !u!4 &411679162
 Transform:
   m_ObjectHideFlags: 0

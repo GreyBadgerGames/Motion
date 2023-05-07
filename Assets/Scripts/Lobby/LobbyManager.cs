@@ -14,6 +14,7 @@ public class LobbyManager : NetworkBehaviour
     [SerializeField] private Button _exitLobbyBtn;
     [SerializeField] private Button _readyButton;
     [SerializeField] private TMP_Text _lobbyList;
+    [SerializeField] public GameMode _gameModePrefab;
     private bool ready;
 
     public override void OnNetworkSpawn()
@@ -92,13 +93,23 @@ public class LobbyManager : NetworkBehaviour
         }
 
         if (numReady == NetworkManager.Singleton.ConnectedClients.Count) {
-            var status = NetworkManager.SceneManager.LoadScene("Game", LoadSceneMode.Single);
-            
-            if (status != SceneEventProgressStatus.Started)
-            {
-                Debug.LogWarning($"Failed to load Game " +
-                    $"with a {nameof(SceneEventProgressStatus)}: {status}");
-            }
+            LoadGame();
+        }
+    }
+
+    private void LoadGame()
+    {
+        // Create the GameMode
+        var gameMode = Instantiate(_gameModePrefab);
+        gameMode.name = "GameMode";
+        gameMode.GetComponent<NetworkObject>().Spawn();
+        
+        var status = NetworkManager.SceneManager.LoadScene("Game", LoadSceneMode.Single);
+        
+        if (status != SceneEventProgressStatus.Started)
+        {
+            Debug.LogWarning($"Failed to load Game " +
+                $"with a {nameof(SceneEventProgressStatus)}: {status}");
         }
     }
 

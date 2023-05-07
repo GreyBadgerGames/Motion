@@ -407,15 +407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a7ba817f8b9983448087aad27d7bee7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerPrefab: {fileID: 1331626009956221074, guid: abd7b75d73269014590d941d86ce89e3, type: 3}
-  m_spawnLocations:
-  - {x: 4, y: 0, z: 4}
-  - {x: -4, y: 0, z: -4}
-  - {x: -4, y: 0, z: 4}
-  - {x: 4, y: 0, z: -4}
-  m_maxRounds: 2
-  m_numOfRounds:
-    m_InternalValue: 0
+  game: {fileID: 496776672867744342, guid: aeb410fb27d26a84eb11b2502c66a23e, type: 3}
 --- !u!4 &500135239
 Transform:
   m_ObjectHideFlags: 0
