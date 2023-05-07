@@ -4,21 +4,19 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
 
-public class LastPersonStandingGameMode : GameMode
+public class TestingGameMode : GameMode
 {
-    public override string _name { get{return "Last Person Standing";} }
+    public override string _name { get{return "Testing - Infinite Respawns";} }
 
-    public override string _decription { get{return "Multiple rounds, that run until the there is one person standing, or the timer elapses.";} }
+    public override string _decription { get{return "Game mode for testing, infinite respawns enabled.";} }
 
-    // TODO Define these settings in the lobby
-    [SerializeField] public int _maxRounds = 2;
     public NetworkVariable<int> _numOfRounds = new NetworkVariable<int>(default,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     public override void StartGame()
     {
         if (!IsServer) return;
-        Debug.Log($"Starting LastPersonStanding GameMode");
+        Debug.Log($"Starting Testing GameMode");
         
         int i = 0;
         // Create a PlayerObject (_playerPrefab) for each connected client
@@ -27,7 +25,6 @@ public class LastPersonStandingGameMode : GameMode
             spawnPlayerObject(clients.Key, _spawnLocations[i], _playerPrefab);            
             i++;
         }
-        _numOfRounds.Value = 1;    
 
         _gameStartTime = System.DateTime.Now;
     }
@@ -49,11 +46,6 @@ public class LastPersonStandingGameMode : GameMode
 
     public override void PlayerKilled(ulong killedClientId, ulong killerClientId)
     {
-        if (_numOfRounds.Value >= _maxRounds)
-        {
-            EndGame();
-        }
-
         restartRound();
 
         _numOfRounds.Value ++;
@@ -72,6 +64,6 @@ public class LastPersonStandingGameMode : GameMode
 
     public override string GameStatusToString()
     {
-        return $"Round {_numOfRounds.Value}/{_maxRounds}";
+        return $"Round {_numOfRounds.Value}";
     }
 }

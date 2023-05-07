@@ -15,6 +15,11 @@ public abstract class GameMode : NetworkBehaviour
     public abstract void EndGame();
     public abstract void PlayerKilled(ulong killedClientId, ulong killerClientId);
     public abstract string GameStatusToString();
+    
+    public override void OnNetworkSpawn()
+    {
+        this.name = "GameMode"; // Set name to GameMode so everyone can find it
+    }
 
     protected void spawnPlayerObject(ulong clientId, Vector3 spawnLoc, NetworkObject prefab)
     {

@@ -808,7 +808,8 @@ MonoBehaviour:
   _lobbyList: {fileID: 148485429}
   _gameModeDropdown: {fileID: 1386235870}
   _gameModePrefabs:
-  - {fileID: 496776672867744342, guid: aeb410fb27d26a84eb11b2502c66a23e, type: 3}
+  - {fileID: 496776672867744342, guid: 38b7cf982378ab341b0a4536eed87742, type: 3}
+  - {fileID: 8147400214748824155, guid: aeb410fb27d26a84eb11b2502c66a23e, type: 3}
   _gameModeDescription: {fileID: 121891561}
 --- !u!4 &411679162
 Transform:

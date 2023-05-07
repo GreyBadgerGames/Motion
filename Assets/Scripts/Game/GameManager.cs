@@ -22,12 +22,12 @@ public class GameManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (!IsServer) return;
         Debug.Log($"Making a call to Start the GameMode");
 
         _game = GameObject.Find("GameMode").GetComponent<GameMode>();
         if (_game == null) throw new System.Exception("Could not find 'GameMode' object - was it created in the lobby?");
     
+        if (!IsServer) return;
         _game.StartGame(); // TODO Run once all players have loaded the scene (and maybe other conditions?)
     }
 
