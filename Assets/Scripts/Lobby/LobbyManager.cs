@@ -14,7 +14,9 @@ public class LobbyManager : NetworkBehaviour
     [SerializeField] private Button _exitLobbyBtn;
     [SerializeField] private Button _readyButton;
     [SerializeField] private TMP_Text _lobbyList;
-    [SerializeField] public GameMode _gameModePrefab;
+    [SerializeField] private TMP_Dropdown _gameModeDropdown;
+    [SerializeField] public List<GameMode> _gameModePrefabs;
+    [SerializeField] private TMP_Text _gameModeDescription;
     private bool ready;
 
     public override void OnNetworkSpawn()
@@ -26,6 +28,11 @@ public class LobbyManager : NetworkBehaviour
         _readyButton.onClick.AddListener(readyButtonClicked);
         _exitLobbyBtn.onClick.AddListener(exitLobbyButtonClicked);
         _settingsBtn.onClick.AddListener(settingsButtonClicked);
+        initGameModeDropdown();
+        _gameModeDropdown.onValueChanged.AddListener(delegate {
+            gameModeDropdownChange();
+        });
+        gameModeDropdownChange();
         base.OnNetworkSpawn();
     }
 
@@ -59,6 +66,22 @@ public class LobbyManager : NetworkBehaviour
     private void settingsButtonClicked()
     {
         _settingsModal.SetActive(true);
+    }
+
+    private void initGameModeDropdown()
+    {
+        _gameModeDropdown.options.Clear();
+        foreach (GameMode gm in _gameModePrefabs)
+        {
+            _gameModeDropdown.options.Add(new TMP_Dropdown.OptionData() {text = gm._name});
+        }
+    }
+
+    private void gameModeDropdownChange()
+    {
+        GameMode gm = _gameModePrefabs[_gameModeDropdown.value];
+        Debug.Log($"Setting GameMode to {gm._name}");
+        _gameModeDescription.text = gm._decription;
     }
 
     void FixedUpdate()
@@ -100,7 +123,7 @@ public class LobbyManager : NetworkBehaviour
     private void LoadGame()
     {
         // Create the GameMode
-        var gameMode = Instantiate(_gameModePrefab);
+        var gameMode = Instantiate(_gameModePrefabs[_gameModeDropdown.value]);
         gameMode.name = "GameMode";
         gameMode.GetComponent<NetworkObject>().Spawn();
         
