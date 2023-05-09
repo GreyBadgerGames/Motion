@@ -40,7 +40,7 @@ public class ScoreBoardManager : NetworkBehaviour
 
         // Update rounds text
         GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-        m_roundsText.text = $"Round {gm.m_numOfRounds.Value}/{gm.m_maxRounds}";
+        m_roundsText.text = gm._game.GameStatusToString();
 
         foreach (RectTransform oldBar in m_scrollViewContent.transform)
         { 
