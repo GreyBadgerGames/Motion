@@ -19,8 +19,6 @@ public class ScoreBoardManager : NetworkBehaviour
 
     void Update()
     {
-        gameObject.GetComponent<Canvas>().enabled = Input.GetKey(KeyCode.Tab);
-
         if (!IsServer) return;
         Dictionary<string, string> playersDict = new Dictionary<string, string>();
         string playersString = "<b>Player Name</b>:<b>Health</b>,"; // Set header text
@@ -38,7 +36,7 @@ public class ScoreBoardManager : NetworkBehaviour
     [ClientRpc]
     private void UpdateScoreBoardClientRpc(string playerString)
     {
-        if (!Input.GetKey(KeyCode.Tab)) return; // Tab not pressed so don't actually need to update anything
+        if (!gameObject.GetComponent<Canvas>().enabled) return; // Scoreboard not open so don't need to update anything
 
         // Update rounds text
         GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();

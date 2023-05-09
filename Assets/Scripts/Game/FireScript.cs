@@ -13,12 +13,13 @@ public class FireScript : NetworkBehaviour
     [SerializeField] private GameObject PlayerCamera;
     [SerializeField] private float _projectileSpeed;
     [SerializeField] private float _projectileDamage;
+    [SerializeField] private GamePlayerManager gamePlayerManager;
 
     void Update()
     {
         if (!IsOwner) return;
         requestFire = playerInput();
-        if (requestFire == true) { 
+        if (requestFire == true && gamePlayerManager._canMove) { 
             Fire(
                 PlayerCamera.transform.position + PlayerCamera.transform.forward * 0.1f,
                 PlayerCamera.transform.rotation,
