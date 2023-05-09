@@ -5,26 +5,21 @@ using Unity.Netcode;
 
 public class ViewController : NetworkBehaviour
 {
-
-    public float sensX;
-    public float sensY;
-
-    public Transform orientation;
+    [SerializeField] private float sensX;
+    [SerializeField] private float sensY;
+    [SerializeField] private Transform orientation;
     [SerializeField] private GameObject PlayerObject;
 
-    float xRotation;
-    float yRotation; 
+    private float xRotation;
+    private float yRotation; 
 
-    // Start is called before the first frame update
     void Start()
     {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            transform.rotation = Quaternion.Euler(0, 0, 0);
+        Cursor.lockState = CursorLockMode.Locked;
+        transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void CheckRotation()
     {
         if (!IsOwner) return;
 
@@ -37,6 +32,5 @@ public class ViewController : NetworkBehaviour
 
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
         orientation.rotation = Quaternion.Euler(0, yRotation, 0);
-
     }
 }

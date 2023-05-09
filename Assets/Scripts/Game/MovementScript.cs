@@ -37,7 +37,7 @@ public class MovementScript : NetworkBehaviour
 
     private Rigidbody rb;
 
-
+    [SerializeField] private GamePlayerManager gamePlayerManager;
 
     // Start is called before the first frame update
     void Start()
@@ -58,7 +58,7 @@ public class MovementScript : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        MovePlayer();
+        if (gamePlayerManager._canMove) MovePlayer();
     }
 
     void PlayerInput()

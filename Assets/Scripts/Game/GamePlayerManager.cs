@@ -10,6 +10,8 @@ public class GamePlayerManager : NetworkBehaviour
     public NetworkVariable<float> _health = new NetworkVariable<float>(default,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     [SerializeField] private PositionHistoryManager _positionHistoryManager;
+    [SerializeField] private ViewController _viewController;
+    public bool _canMove;
 
     public override void OnNetworkSpawn()
     {
@@ -17,14 +19,9 @@ public class GamePlayerManager : NetworkBehaviour
         assignToPersistentPlayer();
     }
 
-    void Update()
+    public void Update()
     {
-        if (!IsServer) return;
-        
-        if (_health.Value <= 0)
-        {
-            _health.Value = _maxHealth;
-        }
+        if (_canMove) _viewController.CheckRotation();
     }
 
     private void setPlayerHealth()

@@ -12,14 +12,25 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private Button _exitToDesktopBtn;
     [SerializeField] private Button _hostBtn;
     [SerializeField] private Button _clientBtn;
+    [SerializeField] private Button _settingsBtn;
     [SerializeField] public TMP_InputField _nameField;
     [SerializeField] public TMP_InputField _ipField;
+    [SerializeField] public GameObject _settingsModal;
+
+    private void Start()
+    {
+        // Hack to allow starting the game in editor from Game scene :)
+        if (NetworkManager.Singleton == null) SceneManager.LoadScene("Startup");
+    }
 
     private void Awake()
-    {
+    {    
         _hostBtn.onClick.AddListener(hostButtonClicked);
         _clientBtn.onClick.AddListener(clientButtonClicked);
         _exitToDesktopBtn.onClick.AddListener(exitToDesktopButtonClicked);
+        _settingsBtn.onClick.AddListener(settingsButtonClicked);
+        _settingsModal.SetActive(false);
+
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectCallback;
     }
@@ -49,6 +60,11 @@ public class MainMenuManager : MonoBehaviour
         }
         NetworkManager.Singleton.StartClient();
 
+    }
+
+    private void settingsButtonClicked()
+    {
+        _settingsModal.SetActive(true);
     }
 
     void OnClientConnectedCallback(ulong clientId)
