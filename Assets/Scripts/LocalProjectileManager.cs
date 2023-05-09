@@ -3,36 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
-// Maybe move Projectile to Pooled Dynamic Spawning if we see performance issues?
-// https://docs-multiplayer.unity3d.com/netcode/current/basics/object-spawning/index.html#pooled-dynamic-spawning
-
-// ProjectileManager manages a generic projectile, with projectiles stats being set by the firer
-public class LocalProjectileManager : MonoBehaviour
+public class LocalProjectileManager : GenericProjectileManager
 {
-    private float _speed;
-    private float _damage;
-    private bool _hasCollided = false;
-
-    public void Start()
+    public override void Update()
     {
-        Physics.IgnoreLayerCollision(7, 7);
+        SetColliderRotation();
+        SetColliderLength();
     }
 
-// SetupAndSpawn sets up the projectile, and creates it on the network
-    public void Setup(float speed, float damage)
+    public override void Spawn(ulong clientId)
     {
-        _speed = speed;
-        _damage = damage;
-        gameObject.GetComponent<Rigidbody>().isKinematic = false;
+        // TODO Maybe use a "virtual" method here?
+        throw new System.NotImplementedException();
     }
 
-    // Fire adds an impulse force to the projectile's RigidBidy as an impluse
-    public void Fire(Vector3 direction)
-    {
-        gameObject.GetComponent<Rigidbody>().AddForce(direction * _speed, ForceMode.Impulse);
-    }
-
-    void OnCollisionEnter(Collision collision)
+    public override void OnCollisionEnter(Collision collision) 
     {
         if (_hasCollided) return;
         _hasCollided = true;
@@ -42,13 +27,9 @@ public class LocalProjectileManager : MonoBehaviour
         {
             GamePlayerManager player = collision.gameObject.GetComponent<GamePlayerManager>();
             Debug.Log("Trying to get GamePlayerManager: " + player);
-            PositionHistoryManager positionHistoryManager = collision.gameObject.GetComponent<PositionHistoryManager>();
-            HitDetectionChecker hitDetectionChecker = collision.gameObject.GetComponent<HitDetectionChecker>();
-            Vector3[] positionHistory = positionHistoryManager.GetPositionHistory();
-            player.RequestHitServerRpc(-_damage, NetworkManager.Singleton.LocalClientId, positionHistory, collision.gameObject.transform.position);
+            player.RequestHitServerRpc(-_damage, NetworkManager.Singleton.LocalClientId, collision.gameObject.transform.position);
         }
 
         Destroy(gameObject);
-    }    
-    
+    }
 }

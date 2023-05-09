@@ -387,7 +387,6 @@ GameObject:
   - component: {fileID: 3735900604473332184}
   - component: {fileID: 5087768163329735264}
   - component: {fileID: 8497612590658766276}
-  - component: {fileID: 2272456563945727243}
   m_Layer: 0
   m_Name: PlayerObject
   m_TagString: Player
@@ -503,7 +502,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orientation: {fileID: 1331626010057255832}
-  ProjectileObject: {fileID: 5315465300101960497, guid: 2193a79423c43c74fbf8c44d76a19298, type: 3}
+  NetworkProjectileObject: {fileID: 5315465300101960497, guid: 2193a79423c43c74fbf8c44d76a19298, type: 3}
   LocalProjectileObject: {fileID: 5315465300101960497, guid: 6bfbdbcb03bba244fad77b9cbf3ff6d3, type: 3}
   PlayerCamera: {fileID: 1331626010981178509}
   _projectileSpeed: 10
@@ -523,6 +522,7 @@ MonoBehaviour:
   _maxHealth: 100
   _health:
     m_InternalValue: 0
+  _positionHistoryManager: {fileID: 8497612590658766276}
 --- !u!114 &8497612590658766276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -583,15 +583,3 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   pos1: {x: 0, y: 0, z: 0}
   pos2: {x: 0, y: 0, z: 0}
---- !u!114 &2272456563945727243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1331626011835382728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 628781750ec9bf94faee08714026b468, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
