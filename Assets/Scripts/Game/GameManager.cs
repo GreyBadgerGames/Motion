@@ -34,7 +34,7 @@ public class GameManager : NetworkBehaviour
     [ServerRpc]
     public void ReportDeathServerRpc(ulong killedClientId, ulong killerClientId)
     {
-        Debug.Log($"{killedClientId} killed by {killerClientId}!");
+        Debug.Log($"{killedClientId} killed by {killerClientId}!!");
         _game.PlayerKilled(killedClientId, killerClientId);
     }
 }
